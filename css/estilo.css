@@ -1,0 +1,59 @@
+/* Configurações do topo*/
+.bg-topo {
+	background-color: #303f9f;
+}
+
+.btn-outline-topo{
+	color: #fff;
+	background-color: transparent;
+	border-color:#fff; 
+}
+
+.btn-outline-topo:hover{
+	color: #303f9f;
+	background-color: #ffc107;
+	border-color:#fff;
+}
+
+.link-topo {
+	color: #fff;
+}
+
+.link-topo:hover {
+	color: #ffc107;
+}
+
+/* Configurações do corpo */
+body {
+	font-family: sans-serif;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-family: inherit;
+}
+
+.container-topo{
+	margin-top: 10px;
+}
+
+.table{
+	margin-bottom: 200px;
+}
+
+/* Formulário*/
+.form-pes{
+	margin-top: 20px;
+	border-color: #f0f0f0;
+}
+
+.btn-outline-form{
+	color: #fff;;
+	background-color: #303f9f;
+	border-color:#fff; 
+}
+
+.btn-outline-form:hover{
+	color: #303f9f;
+	background-color: #ffc107;
+	border-color:#fff; 
+}
