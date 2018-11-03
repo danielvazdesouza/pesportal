@@ -26,37 +26,37 @@
 
 	<!-- Formulário -->
 	<div class="container form-pes">
-		<form method="post">
+		<form method="get">
 			<div class="form-group">
 				<label for="oneid">Informe o seu OneID:</label>
-				<input type="number" class="form-control col-sm-12 col-md-3" id="oneid" placeholder="OneID" required>
+				<input type="number" class="form-control col-sm-12 col-md-3" id="oneid" name="oneid" placeholder="OneID" required>
 			</div>
 			
 			<div class="form-group">
 				<label for="nome">Confirme o seu nome:</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="nome" placeholder="Nome" required>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="nome" name="nome" placeholder="Nome" required>
 			</div>
 			
 			<div class="form-group">
 				<label for="email">Endereço de e-mail:</label>
-				<input type="email" class="form-control col-sm-12 col-md-6" id="email" aria-describedby="emailHelp" placeholder="email@exemplo.com" required>
+				<input type="email" class="form-control col-sm-12 col-md-6" id="email" name="email" aria-describedby="emailHelp" placeholder="email@exemplo.com" required>
 				<small id="emailHelp" class="form-text text-muted">Caso a falha a ser reportada seja no seu email, por favor forneça um endereço alternativo.</small>
 			</div>
 			
 			<div class="form-group">
 				<label for="localidade">Confirme sua localidade:</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="localidade" aria-describedby="localidadelHelp" placeholder="Localidade" required>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="localidade" name="localidade" aria-describedby="localidadelHelp" placeholder="Localidade" required>
 				<small id="localidadeHelp" class="form-text text-muted">ex.: Matriz, Itajaí, Santa Cruz do Sul, etc...</small>
 			</div>
 			
 			<div class="form-group">
 				<label for="telefone">Telefone para contato:</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="telefone" placeholder="(21)00009500" required>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="telefone" name="telefone" placeholder="(21)00009500" required>
 			</div>
 			
 			<div class="form-group">
-    			Selecione o processo ou sistema impactado:<br>
-    			<select class="custom-select col-sm-12 col-md-6">
+    			Selecione a area impactada:<br>
+    			<select class="custom-select col-sm-12 col-md-6" name="area">
     				<option selected>Operations</option>
     				<option value="1">Leaf</option>
     				<option value="2">Supply</option>
@@ -66,12 +66,12 @@
 			
 			<div class="form-group">
 				<label for="sistema">Sistema impactado</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="sistema" placeholder="Sistema" required>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="sistema" name="sistema" placeholder="Sistema" required>
 			</div>
 			
 			<div class="form-group">
 				<label for="descricao">Descreva o impacto que este problema causa para o negócio:</label>
-				<textarea class="form-control" id="descricao" rows="4" required></textarea>
+				<textarea class="form-control" id="descricao" name="descricao" rows="4" required></textarea>
 			</div>
 			
 			<br>Impacto para o negócio:<br>
@@ -90,7 +90,17 @@
 			<br>
 			<button type="submit" class="btn btn-outline-form mb-2">Enviar</button>
 		</form>
+		
+<?php
+    if(isset($_GET)){
+        foreach ($_GET as $key => $value) {
+            echo "Nome do campo ". $key ."<br>";
+            echo "Valor do campo ". $value;
+            echo "<hr>";
+        }
+    }
 
+?>
 	</div>
 
 	<!-- Optional JavaScript -->
@@ -100,3 +110,4 @@
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
+
