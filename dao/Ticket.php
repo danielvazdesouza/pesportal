@@ -44,9 +44,9 @@ class Ticket {
     
     public function loadAll(){
         try{
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket");
+            $stmt = $this->conexao->conectar()->prepare("select ticket_id, tstatus, oneid from tb_ticket");
             $stmt->execute();
-            return $stmt->fetch();
+            return $stmt->fetchAll();
         }catch (PDOException $e){
             return $e->getMessage();
         }
