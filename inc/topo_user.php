@@ -1,7 +1,7 @@
 <div class="container-fluid  bg-topo">
 	<header class="container">
 		<nav class="navbar navbar-expand-lg navbar-dark">
-			<a href="#" class="navbar-brand"> <img alt="IT Solutions"
+			<a href="index.php" class="navbar-brand"> <img alt="IT Solutions"
 				src="img/IT_logo.png" width="80" class="d-inline-block align-top">
 			</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse"

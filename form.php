@@ -1,4 +1,19 @@
-﻿<!doctype html>
+﻿<?php 
+require_once 'dao/Usuario.php';
+require_once 'dao/Ticket.php';
+
+$usuario = new Usuario();
+$ticket = new Ticket();
+
+if (isset($_POST['enviar'])){
+    if($ticket->insert($_POST)=='ok' && $usuario->insert($_POST) =='ok'){
+        header("location: /pesportal");
+    }else{
+        echo '<script type="text/javascript">alert("Errouuuu")</script>';
+    }
+}
+?>
+<!doctype html>
 <html lang="pt-br">
 <head>
 <link rel="icon" href="img/IT_logo_yellow.png">
@@ -11,7 +26,7 @@
 <body>
     <!-- Navbar -->
 	<?php 
-	   require_once 'inc/topo.php';
+	   require_once 'inc/topo_user.php';
 	?>
 	<!-- Introdução -->
 	<div class="container container-topo">
@@ -26,7 +41,7 @@
 
 	<!-- Formulário -->
 	<div class="container form-pes">
-		<form method="get">
+		<form method="post">
 			<div class="form-group">
 				<label for="oneid">Informe o seu OneID:</label>
 				<input type="number" class="form-control col-sm-12 col-md-3" id="oneid" name="oneid" placeholder="OneID" required>
@@ -45,7 +60,7 @@
 			
 			<div class="form-group">
 				<label for="localidade">Confirme sua localidade:</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="localidade" name="localidade" aria-describedby="localidadelHelp" placeholder="Localidade" required>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="localidade_afet" name="localidade_afet" aria-describedby="localidadelHelp" placeholder="Localidade" required>
 				<small id="localidadeHelp" class="form-text text-muted">ex.: Matriz, Itajaí, Santa Cruz do Sul, etc...</small>
 			</div>
 			
@@ -53,10 +68,15 @@
 				<label for="telefone">Telefone para contato:</label>
 				<input type="text" class="form-control col-sm-12 col-md-6" id="telefone" name="telefone" placeholder="(21)00009500" required>
 			</div>
+
+			<div class="form-group">
+				<label for="ticket_id">Informe o numero do chamado:</label>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="ticket_id" name="ticket_id" placeholder="ex.: CHXXXXXXX" required>
+			</div>
 			
 			<div class="form-group">
     			Selecione a area impactada:<br>
-    			<select class="custom-select col-sm-12 col-md-6" name="area">
+    			<select class="custom-select col-sm-12 col-md-6" name="area_afet">
     				<option selected>Operations</option>
     				<option value="1">Leaf</option>
     				<option value="2">Supply</option>
@@ -65,8 +85,8 @@
 			</div>
 			
 			<div class="form-group">
-				<label for="sistema">Sistema impactado</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="sistema" name="sistema" placeholder="Sistema" required>
+				<label for="sistema_afet">Sistema impactado</label>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="sistema_afet" name="sistema_afet" placeholder="Sistema" required>
 			</div>
 			
 			<div class="form-group">
@@ -88,19 +108,10 @@
 				<label class="form-check-label" for="alto">Alto - Área funcional parada ou real risco legal e/ou financeiro</label>
 			</div>
 			<br>
-			<button type="submit" class="btn btn-outline-form mb-2">Enviar</button>
+			<button type="submit" name="enviar" class="btn btn-outline-form mb-2">Enviar</button>
 		</form>
 		
-<?php
-    if(isset($_GET)){
-        foreach ($_GET as $key => $value) {
-            echo "Nome do campo ". $key ."<br>";
-            echo "Valor do campo ". $value;
-            echo "<hr>";
-        }
-    }
 
-?>
 	</div>
 
 	<!-- Optional JavaScript -->

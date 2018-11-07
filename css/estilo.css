@@ -15,14 +15,6 @@
 	border-color:#fff;
 }
 
-.link-topo {
-	color: #fff;
-}
-
-.link-topo:hover {
-	color: #ffc107;
-}
-
 /* Configurações do corpo */
 body {
 	font-family: sans-serif;
