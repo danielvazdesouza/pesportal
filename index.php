@@ -47,6 +47,7 @@ $tkt = new Ticket();
 					<th>Solicitante</th>
 					<th>Primeira Resposta</th>
 					<th>Última Atualização</th>
+					<th>Ação</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,8 +56,14 @@ $tkt = new Ticket();
 					<td><?=$res['ticket_id']?></td>
 					<td><?=$res['tstatus']?></td>
 					<td><?=$res['oneid']?></td>
-					<td>1.25</td>
+					<td><?=$res['prim_resposta']?></td>
 					<td>10/10/2018 12:25</td>
+					<td class="row">
+						<i class="material-icons col-3">visibility</i>
+						<i class="material-icons col-3">edit</i>
+						<i class="material-icons col-3">note_add</i>
+						<i class="material-icons col-3">archive</i>
+					</td>
 				</tr>
 				<?php }?>
 			</tbody>
