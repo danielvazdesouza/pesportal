@@ -24,14 +24,6 @@ h1,h2,h3,h4,h5,h6{
 	font-family: inherit;
 }
 
-.container-topo{
-	margin-top: 10px;
-}
-
-.table{
-	margin-bottom: 200px;
-}
-
 /* Formulário*/
 .form-pes{
 	margin-top: 20px;
@@ -48,4 +40,9 @@ h1,h2,h3,h4,h5,h6{
 	color: #303f9f;
 	background-color: #ffc107;
 	border-color:#fff; 
+}
+
+section{
+	margin-top: 20px;
+	margin-bottom: 20px;
 }

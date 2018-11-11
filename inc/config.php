@@ -8,5 +8,8 @@
 <!-- Material Design -->
 <link rel="stylesheet" type="text/css" href="material/iconfont/material-icons.css">
 
+<!-- Fontawesonme -->
+<link rel="stylesheet" type="text/css" href="fontawesome/css/all.css">
+
 <!-- Estilo personalizado -->
 <link rel="stylesheet" type="text/css" href="css/estilo.css">

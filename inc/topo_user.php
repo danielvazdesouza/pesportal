@@ -13,7 +13,7 @@
 				id="navbarContent">
 				<ul class="navbar-nav text-light">
 					<li class="nav-item"><a
-						class="nav-link text-light font-weight-bold" href="#">Formulário</a></li>
+						class="nav-link text-light font-weight-bold" href="form.php">Formulário</a></li>
 					<li class="nav-item"><a
 						class="nav-link text-light font-weight-bold" href="#">Links Uteis</a></li>
 					<li class="nav-item"><a

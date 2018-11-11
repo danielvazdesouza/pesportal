@@ -29,7 +29,7 @@ if (isset($_POST['enviar'])){
 	   require_once 'inc/topo_user.php';
 	?>
 	<!-- Introdução -->
-	<div class="container container-topo">
+	<div class="container">
 		<h1 align="center">Serviço de Priorização e Escalação - PES IT</h1>
 		<hr>
 		Olá!<br><br>
