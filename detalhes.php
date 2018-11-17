@@ -1,3 +1,10 @@
+<?php 
+
+require_once 'dao/Ticket.php';
+
+$ticket = new Ticket();
+
+?>
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -17,21 +24,23 @@ require_once 'inc/config.php';
 	<div class="container">
 	<header>
 		<div>
-			<h1>Detalhes do Ticket: CH1234567</h1>
+			<?php foreach ($ticket->loadByID($_GET['ticket_id']) as $res){?>
+			<h1>Detalhes do Ticket: <?=$res['ticket_id']?></h1>
 			<h6>Ultima atualização do PES: 23/08/2018 17:59</h6>
 		</div>
 		<hr>
 	</header>
 	
 	<section id="detalhes">
-		<label><strong>Nome: </strong>Daniel Souza (81256784)</label><br>
-		<label><strong>E-mail: </strong>daniel_souza@souzacruz.com.br</label><br>
-		<label><strong>Telefone: </strong>51980627078</label><br>
-		<label><strong>Localidade: </strong>Interaction Center</label><br>
-		<label><strong>Área Impactada: </strong>Leaf</label><br>
-		<label><strong>Sistema: </strong>FDV</label><br>
-		<label><strong>Descrição: </strong>Compra de fumo está parada devido a este problema</label><br>
-		<label><strong>Impacto para o negócio: </strong>Alto</label><br>
+		<label><strong>Nome: </strong><?=$res['nome']?> (<?=$res['oneid']?>)</label><br>
+		<label><strong>E-mail: </strong><?=$res['email']?></label><br>
+		<label><strong>Telefone: </strong><?=$res['telefone']?></label><br>
+		<label><strong>Localidade: </strong><?=$res['localidade']?></label><br>
+		<label><strong>Área Impactada: </strong><?=$res['area_afet']?></label><br>
+		<label><strong>Sistema: </strong><?=$res['sistema_afet']?></label><br>
+		<label><strong>Descrição: </strong><?=$res['descricao']?></label><br>
+		<label><strong>Impacto para o negócio: </strong><?=$res['impacto']?></label><br>
+			<?php }?>
 		<hr>
 	</section> <!-- Fim da sessão detalhes -->
 

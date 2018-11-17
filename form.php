@@ -4,12 +4,22 @@ require_once 'dao/Ticket.php';
 
 $usuario = new Usuario();
 $ticket = new Ticket();
+$existe = false;
 
 if (isset($_POST['enviar'])){
-    if($ticket->insert($_POST)=='ok' && $usuario->insert($_POST) =='ok'){
-        header("location: /pesportal");
-    }else{
-        echo '<script type="text/javascript">alert("Errouuuu")</script>';
+
+    if($usuario->exists($_POST['oneid']) == FALSE){
+        $usuario->insert($_POST);
+    }
+
+    if($ticket->exists($_POST['ticket_id'])){
+        //echo '<script type="text/javascript">alert("Este Chamado já está em processo de priorização/escalação")</script>';
+        $existe = true;
+        //header("location: /pesportal/detalhes.php?ticket_id=".$_POST['ticket_id']);
+    } else {
+        $ticket->insert($_POST);
+        echo '<script type="text/javascript">alert("Solicitação efetuada, em breve você receberá contato da equipe PES IT")</script>';
+        header("location: /pesportal/detalhes.php?ticket_id=".$_POST['ticket_id']);
     }
 }
 ?>
@@ -27,6 +37,15 @@ if (isset($_POST['enviar'])){
     <!-- Navbar -->
 	<?php 
 	   require_once 'inc/topo_user.php';
+
+	if($existe){
+	    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	    <p align="center">Ticket <strong>'.$_POST['ticket_id'].'</strong> já está em processo de Priorização/Escalação <a href="detalhes.php?ticket_id='.$_POST['ticket_id'].'">Veja aqui</a></p>
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    <span aria-hidden="true">&times;</span>
+	    </button>
+	    </div>';
+	}
 	?>
 	<!-- Introdução -->
 	<div class="container">
@@ -38,7 +57,7 @@ if (isset($_POST['enviar'])){
 		Todas as informações são obrigatorias.
 		<hr>
 	</div>
-
+	
 	<!-- Formulário -->
 	<div class="container form-pes">
 		<form method="post">
@@ -60,7 +79,7 @@ if (isset($_POST['enviar'])){
 			
 			<div class="form-group">
 				<label for="localidade">Confirme sua localidade:</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="localidade_afet" name="localidade_afet" aria-describedby="localidadelHelp" placeholder="Localidade" required>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="localidade" name="localidade" aria-describedby="localidadelHelp" placeholder="Localidade" required>
 				<small id="localidadeHelp" class="form-text text-muted">ex.: Matriz, Itajaí, Santa Cruz do Sul, etc...</small>
 			</div>
 			
@@ -71,16 +90,19 @@ if (isset($_POST['enviar'])){
 
 			<div class="form-group">
 				<label for="ticket_id">Informe o numero do chamado:</label>
-				<input type="text" class="form-control col-sm-12 col-md-6" id="ticket_id" name="ticket_id" placeholder="ex.: CHXXXXXXX" required>
+				<input type="text" class="form-control col-sm-12 col-md-6" id="ticket_id" name="ticket_id" value="<?php if(isset($_GET['ticket_id'])) {echo $_GET['ticket_id'];}?>" placeholder="ex.: CHXXXXXXX" required>
 			</div>
 			
 			<div class="form-group">
     			Selecione a area impactada:<br>
     			<select class="custom-select col-sm-12 col-md-6" name="area_afet">
-    				<option selected>Operations</option>
-    				<option value="1">Leaf</option>
-    				<option value="2">Supply</option>
-    				<option value="3">Delivery</option>
+    				<option value="Delivery" selected>Delivery</option>
+    				<option value="Delivery">Finance</option>
+    				<option value="Delivery">IT</option>
+    				<option value="Leaf">Leaf</option>
+    				<option value="Delivery">Marketing</option>
+    				<option value="Operations">Operations</option>
+    				<option value="Supply">Supply</option>
     			</select>
 			</div>
 			

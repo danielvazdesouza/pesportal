@@ -1,3 +1,21 @@
+<?php 
+require_once 'dao/Ticket.php';
+
+$ticket = new Ticket();
+
+if(isset($_GET['enviar'])){
+    var_dump($_GET['enviar']);
+    var_dump($_GET['ticket_id']);
+    if($ticket->exists($_GET['ticket_id'])){
+        header("location: /pesportal/detalhes.php?ticket_id=".$_GET['ticket_id']."");
+    } else {
+        header("location: /pesportal/form.php?ticket_id=".$_GET['ticket_id']."");
+    }
+    
+}
+
+?>
+
 <!doctype html>
 <html lang="pt-br">
 <head>
@@ -22,18 +40,19 @@
 	<section id="priorizacao">
 	    <form method="get">
 			<label for="ticket_id">Solicitar Priorização:</label>
-			<div class="input-group mb-3">
+			<div class="input-group">
 				<input type="text" class="form-control col-sm-12 col-md-3" id="ticket_id" name="ticket_id" placeholder="CH1234567">
     			<div class="input-group-append">
-					<button type="submit" name="enviar" class="btn btn-outline-form mb-3">Enviar</button>
+					<button type="submit" name="enviar" class="btn btn-outline-form">Enviar</button>
     			</div>
 			</div>
 		</form>
 	</section> <!-- Fim da sessão priorizacao -->
 
 	<section id="alta_prioridade">
-		<div class="card mb-3">
+		<div class="card">
 			<div class="card-header">
+				<i class="fas fa-exclamation-triangle"></i>
 				Tickets de Alta Prioridade
 			</div>
 			<div class="card-body">
@@ -58,8 +77,9 @@
 	</section><!-- fim da sessão alta prioridade -->
 		
 	<section id="calendario">
-		<div class="card mb-3 col-md-6 col-sm-12">
+		<div class="card col-md-8 col-sm-12">
 			<div class="card-header">
+			<i class="fas fa-calendar-alt"></i>
 				Calendário de Manutenções Confirmadas:
 			</div>
 			<div class="card-body">

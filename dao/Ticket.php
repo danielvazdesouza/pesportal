@@ -1,8 +1,9 @@
 <?php
 require_once 'dao/Conexao.php';
+require_once 'dao/Usuario.php';
 require_once 'dao/InterfaceDB.php';
 
-class Ticket {
+class Ticket extends Usuario{
     private $conexao;
     private $ticket_id;
     private $origem;
@@ -15,9 +16,10 @@ class Ticket {
     private $sistema_afet;
     private $area_afet;
     private $impacto;
-    private $localidade_afet;
+    private $localidade;
     private $prim_resposta;
     private $oneid;
+    private $dthr_ult_atualizacao;
     
     public function __construct(){
         $this->conexao = new Conexao();
@@ -33,10 +35,11 @@ class Ticket {
     
     public function loadByID($ticket_id){
         try{
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket where ticket_id = :TICKET_ID");
+            $this->ticket_id = $ticket_id;
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket t, tb_usuario u where t.ticket_id = :TICKET_ID and t.oneid = u.oneid");
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
             $stmt->execute();
-            return $stmt->fetch();
+            return $stmt->fetchAll();
         }catch (PDOException $e){
             return $e->getMessage();
         }
@@ -44,7 +47,7 @@ class Ticket {
     
     public function loadAll(){
         try{
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket");
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket t, tb_usuario u where t.oneid = u.oneid");
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (PDOException $e){
@@ -65,16 +68,16 @@ class Ticket {
             $this->sistema_afet = $ticket['sistema_afet'];
             $this->area_afet = $ticket['area_afet'];
             $this->impacto = $ticket['impacto'];
-            $this->localidade_afet = $ticket['localidade_afet'];
+            $this->localidade = $ticket['localidade'];
             //$this->prim_resposta = $ticket['prim_resposta'];
             $this->oneid = $ticket['oneid'];
 
 //             $stmt = $this->conexao->conectar()->prepare("insert into tb_ticket
-//                 (ticket_id, origem, tstatus, dthr_recebimento, dthr_inic_tratativa, dthr_prim_report, dthr_encerramento, descricao, sistema_afet, area_afet, impacto, localidade_afet, prim_resposta, oneid)
-//                 values (:TICKET_ID, :ORIGEM, :TSTATUS, :DTHR_RECEBIMENTO, :DTHR_INIC_TRATATIVA, :DTHR_PRIM_REPORT, :DTHR_ENCERRAMENTO, :DESCRICAO, :SISTEMA_AFET, :AREA_AFET, :IMPACTO, :LOCALIDADE_AFET, :PRIM_RESPOSTA, :ONEID)");
+//                 (ticket_id, origem, tstatus, dthr_recebimento, dthr_inic_tratativa, dthr_prim_report, dthr_encerramento, descricao, sistema_afet, area_afet, impacto, localidade, prim_resposta, oneid)
+//                 values (:TICKET_ID, :ORIGEM, :TSTATUS, :DTHR_RECEBIMENTO, :DTHR_INIC_TRATATIVA, :DTHR_PRIM_REPORT, :DTHR_ENCERRAMENTO, :DESCRICAO, :SISTEMA_AFET, :AREA_AFET, :IMPACTO, :LOCALIDADE, :PRIM_RESPOSTA, :ONEID)");
 
-            $stmt = $this->conexao->conectar()->prepare("insert into tb_ticket (ticket_id, descricao, sistema_afet, area_afet, impacto, localidade_afet, oneid)
-                values (:TICKET_ID, :DESCRICAO, :SISTEMA_AFET, :AREA_AFET, :IMPACTO, :LOCALIDADE_AFET, :ONEID)");
+            $stmt = $this->conexao->conectar()->prepare("insert into tb_ticket (ticket_id, descricao, sistema_afet, area_afet, impacto, localidade, oneid)
+                values (:TICKET_ID, :DESCRICAO, :SISTEMA_AFET, :AREA_AFET, :IMPACTO, :LOCALIDADE, :ONEID)");
 
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
             //$stmt->bindParam(":ORIGEM", $this->origem, PDO::PARAM_STR);
@@ -87,7 +90,7 @@ class Ticket {
             $stmt->bindParam(":SISTEMA_AFET", $this->sistema_afet, PDO::PARAM_STR);
             $stmt->bindParam(":AREA_AFET", $this->area_afet, PDO::PARAM_STR);
             $stmt->bindParam(":IMPACTO", $this->impacto, PDO::PARAM_STR);
-            $stmt->bindParam(":LOCALIDADE_AFET", $this->localidade_afet, PDO::PARAM_STR);
+            $stmt->bindParam(":LOCALIDADE", $this->localidade, PDO::PARAM_STR);
             //$stmt->bindParam(":PRIM_RESPOSTA", $this->prim_resposta, PDO::PARAM_NULL);
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
             if ($stmt->execute()) {
@@ -108,6 +111,22 @@ class Ticket {
         }
     }//fim do update
     
+    public function exists($ticket_id){
+        try{
+            $this->ticket_id = $ticket_id;
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket where ticket_id = :TICKET_ID");
+            $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
+            $stmt->execute();
+            if($stmt->rowCount() > 0){
+                return true;
+            } else {
+                return false;
+            }
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }//fim do exists
+    
     public function __toString(){
         return json_encode(array("ticket_id"=>$this->ticket_id,
             "origem"=>$this->origem,
@@ -120,9 +139,11 @@ class Ticket {
             "sistema_afet"=>$this->sistema_afet,
             "area_afet"=>$this->area_afet,
             "impacto"=>$this->impacto,
-            "localidade_afet"=>$this->localidade_afet,
+            "localidade"=>$this->localidade,
             "prim_resposta"=>$this->prim_resposta,
-            "oneid"=>$this->oneid));
+            "oneid"=>$this->oneid,
+            "dthr_ult_atualizacao"=>$this->dthr_ult_atualizacao
+        ));
     }
     
 }
