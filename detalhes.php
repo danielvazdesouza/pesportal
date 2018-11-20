@@ -1,7 +1,6 @@
 <?php 
 
 require_once 'dao/Ticket.php';
-
 require_once 'dao/Comentario.php';
 
 $ticket = new Ticket();
@@ -13,9 +12,6 @@ if(isset($_POST['enviar'])){
          $comentario->insert($_POST);
     }
 }
-
-$ticket = new Ticket();
-
 ?>
 <!doctype html>
 <html lang="pt-br">

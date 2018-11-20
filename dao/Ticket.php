@@ -47,7 +47,7 @@ class Ticket extends Usuario{
     
     public function loadAll(){
         try{
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket t, tb_usuario u where t.oneid = u.oneid");
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket t, tb_usuario u where t.oneid = u.oneid and t.tstatus <> 'Closed'");
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (PDOException $e){
@@ -126,6 +126,17 @@ class Ticket extends Usuario{
             return $e->getMessage();
         }
     }//fim do exists
+    
+    public function archive($ticket_id){
+        try{
+            $this->ticket_id = $ticket_id;
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket where ticket_id = :TICKET_ID");
+            $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
+            $stmt->execute();
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }
     
     public function __toString(){
         return json_encode(array("ticket_id"=>$this->ticket_id,

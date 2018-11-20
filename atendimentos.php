@@ -12,7 +12,6 @@ if(isset($_GET['comentario'])){
 
 if (isset($_POST['enviar'])) {
     $_POST['oneid'] = 12345678;
-    var_dump($_POST);
     $coment->insert($_POST);
 }
 
