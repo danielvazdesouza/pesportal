@@ -77,7 +77,11 @@ if(isset($_GET['enviar'])){
 	</section><!-- fim da sessão alta prioridade -->
 		
 	<section id="calendario">
+<<<<<<< HEAD
 		<div class="card">
+=======
+		<div class="card col-md-8 col-sm-12">
+>>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
 			<div class="card-header">
 			<i class="fas fa-calendar-alt"></i>
 				Calendário de Manutenções Confirmadas:

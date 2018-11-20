@@ -3,7 +3,10 @@ require_once 'dao/Ticket.php';
 require_once 'dao/Comentario.php';
 $tkt = new Ticket();
 $coment = new Comentario();
+<<<<<<< HEAD
 
+=======
+>>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
 
 ?>
 <!doctype html>
@@ -71,6 +74,7 @@ $coment = new Comentario();
     			</div><!-- fim do card-body -->
     		</div><!-- fim do card Atendimentos-->
 		</section><!-- fim da sessão cardTickets -->
+<<<<<<< HEAD
 		
 		<section id="cardComentarios">
     		<div class="card mb-3">
@@ -131,6 +135,43 @@ $coment = new Comentario();
 			</div>
 		</div>
     </div>
+=======
+		
+		<section id="cardComentarios">
+    		<div class="card mb-3">
+    			<div class="card-header bg-topo text-white">
+    				<h6>Comentários Pendente</h6>
+    			</div>
+    			<div class="card-body">
+            		<table class="table table-bordered table-striped"  id="tableComentarios">
+            			<thead>
+            				<tr>
+            					<th>Ticket</th>
+            					<th>Comentário</th>
+            					<th>Nome</th>
+            					<th>Publicado em:</th>
+            					<th>Ação</th>
+            				</tr>
+            			</thead>
+            			<tbody>
+            			<?php foreach ($coment->loadUnread() as $res){?>
+            				<tr>
+            					<td><?=$res['ticket_id']?></td>
+            					<td><?=$res['comentario']?></td>
+            					<td><?=$res['nome']?></td>
+            					<td><?=$res['dthr_publicacao']?></td>
+            					<td>
+            						<i class="btn fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar Comentário"></i>
+            						<i class="btn fas fa-check" data-toggle="tooltip" data-placement="top" title="Aceitar Comentário"></i>
+            					</td>
+            				</tr>
+            				<?php }?>
+            			</tbody>
+            		</table>			
+    			</div>
+    		</div>
+		</section><!-- fim da sessão cardComentarios -->
+>>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
 
 	</div><!-- fim do container -->
 

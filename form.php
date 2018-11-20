@@ -13,7 +13,13 @@ if (isset($_POST['enviar'])){
     }
 
     if($ticket->exists($_POST['ticket_id'])){
+<<<<<<< HEAD
         $existe = true;
+=======
+        //echo '<script type="text/javascript">alert("Este Chamado já está em processo de priorização/escalação")</script>';
+        $existe = true;
+        //header("location: /pesportal/detalhes.php?ticket_id=".$_POST['ticket_id']);
+>>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
     } else {
         $ticket->insert($_POST);
         echo '<script type="text/javascript">alert("Solicitação efetuada, em breve você receberá contato da equipe PES IT")</script>';
