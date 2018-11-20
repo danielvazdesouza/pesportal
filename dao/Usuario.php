@@ -25,6 +25,7 @@ class Usuario implements InterfaceDB{
     
     public function loadByID($oneid){
         try{
+            $this->oneid = $oneid;
             $stmt = $this->conexao->conectar()->prepare("select * from tb_usuario where oneid = :ONEID");
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
             $stmt->execute();
@@ -91,6 +92,22 @@ class Usuario implements InterfaceDB{
             return $e->getMessage();
         }
     }//fim do update
+    
+    public function exists($oneid){
+        try{
+            $this->oneid = $oneid;
+            $stmt = $this->conexao->conectar()->prepare("select oneid from tb_usuario where oneid = :ONEID");
+            $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
+            $stmt->execute();
+            if($stmt->rowCount() > 0){
+                return true;
+            } else {
+                return false;
+            }
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }
 
     public function __toString(){
         return json_encode(array("oneid"=>$this->oneid, "nome"=>$this->nome, "email"=>$this->email, "localidade"=>$this->localidade, "telefone"=>$this->telefone));

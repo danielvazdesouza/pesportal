@@ -5,9 +5,6 @@
 <!-- Bootstrap CSS -->
 <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
 
-<!-- Material Design -->
-<link rel="stylesheet" type="text/css" href="material/iconfont/material-icons.css">
-
 <!-- Fontawesonme -->
 <link rel="stylesheet" type="text/css" href="fontawesome/css/all.css">
 
