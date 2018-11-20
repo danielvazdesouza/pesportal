@@ -79,4 +79,15 @@ class Comentario extends Ticket{
         }
     }
     
+    public function setAsRead($comentarios_id){
+        try{
+            $this->comentarios_id = $comentarios_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_comentarios set lido = 1 where comentarios_id = :COMENTARIOS_ID");
+            $stmt->bindParam(":COMENTARIOS_ID", $this->comentarios_id, PDO::PARAM_INT);
+            $stmt->execute();
+        } catch(PDOException $e){
+            return $e->getMessage();
+        }
+    }
+    
 }

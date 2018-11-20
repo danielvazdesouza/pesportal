@@ -4,6 +4,18 @@ require_once 'dao/Comentario.php';
 $tkt = new Ticket();
 $coment = new Comentario();
 
+if(isset($_GET['comentario'])){
+    if($_GET['comentario'] == "lido"){
+        $coment->setAsRead($_GET['comentarios_id']);
+    }
+}
+
+if (isset($_POST['enviar'])) {
+    $_POST['oneid'] = 12345678;
+    var_dump($_POST);
+    $coment->insert($_POST);
+}
+
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -53,14 +65,14 @@ $coment = new Comentario();
             					<td><?=$res['prim_resposta']?></td>
             					<td><?=$res['dthr_ult_atualizacao']?></td>
             					<td>
-            						<a href="detalhes.php?ticket_id=<?=$res['ticket_id']?>">
-	            						<i class="fas fa-eye col-4" data-toggle="tooltip" data-placement="top" title="Visualizar detalhes"></i>
+            						<a class="btn btn-outline-secondary btn-circle" href="detalhes.php?ticket_id=<?=$res['ticket_id']?>">
+	            						<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar detalhes"></i>
             						</a>
-            						<a href="?atendimento=adicionarComentario&ticket_id=<?=$res['ticket_id']?>">
-            							<i class="btn fas fa-plus col-4" data-toggle="tooltip" data-placement="top" title="Adicionar comentário"></i>
-            						</a>
-            						<a href="?atendimento=arquivar&ticket_id=<?=$res['ticket_id']?>">
-	            						<i class="btn fas fa-archive col-3" data-toggle="tooltip" data-placement="top" title="Arquivar caso"></i>
+            						<button class="btn btn-outline-success btn-circle" data-toggle="modal" data-target="#novoComentario" data-whatever="<?=$res['ticket_id']?>">
+            							<i class="fas fa-plus" data-toggle="tooltip" data-placement="top" title="Adicionar comentário"></i>
+            						</button>
+            						<a class="btn btn-outline-danger btn-circle" href="?acao=arquivar&ticket_id=<?=$res['ticket_id']?>">
+	            						<i class="fas fa-archive" data-toggle="tooltip" data-placement="top" title="Arquivar caso"></i>
             						</a>
             					</td>
             				</tr>
@@ -95,8 +107,12 @@ $coment = new Comentario();
             					<td><?=$res['nome']?></td>
             					<td><?=$res['dthr_publicacao']?></td>
             					<td>
-            						<i class="btn fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar Comentário"></i>
-            						<i class="btn fas fa-check" data-toggle="tooltip" data-placement="top" title="Aceitar Comentário"></i>
+            						<button type="button" class="btn btn-outline-secondary btn-circle" name="<?=$res['comentarios_id']?>" id="<?=$res['comentarios_id']?>">
+            							<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar Comentário"></i>
+            						</button>
+            						<a class="btn btn-outline-success btn-circle" href="?comentario=lido&comentarios_id=<?=$res['comentarios_id']?>">
+            							<i class="fas fa-check" data-toggle="tooltip" data-placement="top" title="Marcar como lido"></i>
+            						</a>
             					</td>
             				</tr>
             				<?php }?>
@@ -105,7 +121,9 @@ $coment = new Comentario();
     			</div>
     		</div>
 		</section><!-- fim da sessão cardComentarios -->
-		
+
+	</div><!-- fim do container -->
+	
 	<div class="modal fade" id="novoComentario" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -115,10 +133,14 @@ $coment = new Comentario();
               		<span aria-hidden="true">&times;</span>
 		            </button>
 				</div>
-				<form method="get">
+				<form method="post">
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="oneid">Comentário:</label>
+							<label for="ticket_id">Ticket:</label>
+							<input type="text" class="form-control" id="ticket_id" name="ticket_id">
+						</div>
+						<div class="form-group">							
+							<label for="comentario">Comentário:</label>
 							<textarea class="form-control" id="comentario" name="comentario" rows="5" required></textarea>
 						</div>
 					</div>
@@ -130,45 +152,7 @@ $coment = new Comentario();
 			</div>
 		</div>
     </div>
-		
-		<section id="cardComentarios">
-    		<div class="card mb-3">
-    			<div class="card-header bg-topo text-white">
-    				<h6>Comentários Pendente</h6>
-    			</div>
-    			<div class="card-body">
-            		<table class="table table-bordered table-striped"  id="tableComentarios">
-            			<thead>
-            				<tr>
-            					<th>Ticket</th>
-            					<th>Comentário</th>
-            					<th>Nome</th>
-            					<th>Publicado em:</th>
-            					<th>Ação</th>
-            				</tr>
-            			</thead>
-            			<tbody>
-            			<?php foreach ($coment->loadUnread() as $res){?>
-            				<tr>
-            					<td><?=$res['ticket_id']?></td>
-            					<td><?=$res['comentario']?></td>
-            					<td><?=$res['nome']?></td>
-            					<td><?=$res['dthr_publicacao']?></td>
-            					<td>
-            						<i class="btn fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar Comentário"></i>
-            						<i class="btn fas fa-check" data-toggle="tooltip" data-placement="top" title="Aceitar Comentário"></i>
-            					</td>
-            				</tr>
-            				<?php }?>
-            			</tbody>
-            		</table>			
-    			</div>
-    		</div>
-		</section><!-- fim da sessão cardComentarios -->
->>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
-
-	</div><!-- fim do container -->
-
+	
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
@@ -184,6 +168,15 @@ $coment = new Comentario();
         $(document).ready( function () {
             $('#tableComentarios').DataTable();
         } );
+	</script>
+	<script type="text/javascript">
+		$('#novoComentario').on('show.bs.modal',function(event){
+			var button = $(event.relatedTarget)
+			var recipient = button.data('whatever')
+			var modal = $(this)
+			modal.find('.modal-title').text('Novo comentário para o ticket ' + recipient)
+			modal.find('.modal-body input').val(recipient)
+		})
 	</script>
 </body>
 </html>

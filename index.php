@@ -4,8 +4,6 @@ require_once 'dao/Ticket.php';
 $ticket = new Ticket();
 
 if(isset($_GET['enviar'])){
-    var_dump($_GET['enviar']);
-    var_dump($_GET['ticket_id']);
     if($ticket->exists($_GET['ticket_id'])){
         header("location: /pesportal/detalhes.php?ticket_id=".$_GET['ticket_id']."");
     } else {
@@ -77,7 +75,7 @@ if(isset($_GET['enviar'])){
 	</section><!-- fim da sessão alta prioridade -->
 		
 	<section id="calendario">
-		<div class="card col-md-12 col-sm-12">
+		<div class="card">
 			<div class="card-header">
 			<i class="fas fa-calendar-alt"></i>
 				Calendário de Manutenções Confirmadas:
