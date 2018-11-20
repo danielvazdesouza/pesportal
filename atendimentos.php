@@ -3,10 +3,6 @@ require_once 'dao/Ticket.php';
 require_once 'dao/Comentario.php';
 $tkt = new Ticket();
 $coment = new Comentario();
-<<<<<<< HEAD
-
-=======
->>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
 
 ?>
 <!doctype html>
@@ -74,7 +70,6 @@ $coment = new Comentario();
     			</div><!-- fim do card-body -->
     		</div><!-- fim do card Atendimentos-->
 		</section><!-- fim da sessão cardTickets -->
-<<<<<<< HEAD
 		
 		<section id="cardComentarios">
     		<div class="card mb-3">
@@ -135,7 +130,6 @@ $coment = new Comentario();
 			</div>
 		</div>
     </div>
-=======
 		
 		<section id="cardComentarios">
     		<div class="card mb-3">

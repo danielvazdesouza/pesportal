@@ -1,7 +1,7 @@
 <?php 
 
 require_once 'dao/Ticket.php';
-<<<<<<< HEAD
+
 require_once 'dao/Comentario.php';
 
 $ticket = new Ticket();
@@ -14,10 +14,7 @@ if(isset($_POST['enviar'])){
     }
 }
 
-=======
-
 $ticket = new Ticket();
->>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
 
 ?>
 <!doctype html>

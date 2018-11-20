@@ -35,7 +35,7 @@ class Comentario extends Ticket{
         }
     }
     
-<<<<<<< HEAD
+
     public function loadByID($ticket_id){
         try{
             $this->ticket_id = $ticket_id;
@@ -79,6 +79,4 @@ class Comentario extends Ticket{
         }
     }
     
-=======
->>>>>>> fa48ee8da3d6e85205db2b322745064147e0205b
 }
