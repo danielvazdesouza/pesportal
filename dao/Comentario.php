@@ -35,7 +35,6 @@ class Comentario extends Ticket{
         }
     }
     
-
     public function loadByID($ticket_id){
         try{
             $this->ticket_id = $ticket_id;

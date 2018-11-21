@@ -58,40 +58,22 @@ class Ticket extends Usuario{
     public function insert($ticket){
         try{
             $this->ticket_id = $ticket['ticket_id'];
-            //$this->origem = $ticket['origem'];
-            //$this->tstatus = $ticket['tstatus'];
-            //$this->dthr_recebimento = $ticket['dthr_recebimento'];
-            //$this->dthr_inic_tratativa = $ticket['dthr_inic_tratativa'];
-            //$this->dthr_prim_report = $ticket['dthr_prim_report'];
-            //$this->dthr_encerramento = $ticket['dthr_encerramento'];
             $this->descricao = $ticket['descricao'];
             $this->sistema_afet = $ticket['sistema_afet'];
             $this->area_afet = $ticket['area_afet'];
             $this->impacto = $ticket['impacto'];
             $this->localidade = $ticket['localidade'];
-            //$this->prim_resposta = $ticket['prim_resposta'];
             $this->oneid = $ticket['oneid'];
-
-//             $stmt = $this->conexao->conectar()->prepare("insert into tb_ticket
-//                 (ticket_id, origem, tstatus, dthr_recebimento, dthr_inic_tratativa, dthr_prim_report, dthr_encerramento, descricao, sistema_afet, area_afet, impacto, localidade, prim_resposta, oneid)
-//                 values (:TICKET_ID, :ORIGEM, :TSTATUS, :DTHR_RECEBIMENTO, :DTHR_INIC_TRATATIVA, :DTHR_PRIM_REPORT, :DTHR_ENCERRAMENTO, :DESCRICAO, :SISTEMA_AFET, :AREA_AFET, :IMPACTO, :LOCALIDADE, :PRIM_RESPOSTA, :ONEID)");
 
             $stmt = $this->conexao->conectar()->prepare("insert into tb_ticket (ticket_id, descricao, sistema_afet, area_afet, impacto, localidade, oneid)
                 values (:TICKET_ID, :DESCRICAO, :SISTEMA_AFET, :AREA_AFET, :IMPACTO, :LOCALIDADE, :ONEID)");
 
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
-            //$stmt->bindParam(":ORIGEM", $this->origem, PDO::PARAM_STR);
-            //$stmt->bindParam(":TSTATUS", $this->tstatus, PDO::PARAM_NULL);
-            //$stmt->bindParam(":DTHR_RECEBIMENTO", $this->dthr_recebimento, PDO::PARAM_NULL);
-            //$stmt->bindParam(":DTHR_INIC_TRATATIVA", $this->dthr_inic_tratativa, PDO::PARAM_NULL);
-            //$stmt->bindParam(":DTHR_PRIM_REPORT", $this->dthr_prim_report, PDO::PARAM_NULL);
-            //$stmt->bindParam(":DTHR_ENCERRAMENTO", $this->dthr_encerramento, PDO::PARAM_NULL);
             $stmt->bindParam(":DESCRICAO", $this->descricao, PDO::PARAM_STR);
             $stmt->bindParam(":SISTEMA_AFET", $this->sistema_afet, PDO::PARAM_STR);
             $stmt->bindParam(":AREA_AFET", $this->area_afet, PDO::PARAM_STR);
             $stmt->bindParam(":IMPACTO", $this->impacto, PDO::PARAM_STR);
             $stmt->bindParam(":LOCALIDADE", $this->localidade, PDO::PARAM_STR);
-            //$stmt->bindParam(":PRIM_RESPOSTA", $this->prim_resposta, PDO::PARAM_NULL);
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
             if ($stmt->execute()) {
                 return 'ok';
@@ -102,14 +84,6 @@ class Ticket extends Usuario{
             return $e->getMessage();
         }
     }//fim do insert
-    
-    public function update($ticket){
-        try{
-            
-        }catch (PDOException $e){
-            return $e->getMessage();
-        }
-    }//fim do update
     
     public function exists($ticket_id){
         try{
@@ -130,7 +104,26 @@ class Ticket extends Usuario{
     public function archive($ticket_id){
         try{
             $this->ticket_id = $ticket_id;
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket where ticket_id = :TICKET_ID");
+            $stmt = $this->conexao->conectar()->prepare("update tb_ticket set tstatus='Closed', dthr_ult_atualizacao = current_timestamp where ticket_id = :TICKET_ID");
+            $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
+            $stmt->execute();
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }
+    
+    public function update($ticket){
+        try{
+            $this->origem = $ticket['origem'];
+            $this->dthr_inic_tratativa = $ticket['dthr_inic_tratativa'];
+            $this->dthr_prim_report = $ticket['dthr_prim_report'];
+            $this->prim_resposta = $ticket['prim_resposta'];
+            $this->ticket_id = $ticket['ticket_id'];
+            $stmt = $this->conexao->conectar()->prepare("update tb_ticket set tstatus='Em Atendimento', dthr_ult_atualizacao = current_timestamp, origem= :ORIGEM, dthr_inic_tratativa= :DTHR_INIC_TRATATIVA, dthr_prim_report= :DTHR_PRIM_REPORT, prim_resposta = :PRIM_RESPOSTA where ticket_id = :TICKET_ID");
+            $stmt->bindParam(":ORIGEM", $this->origem, PDO::PARAM_STR);
+            $stmt->bindParam(":DTHR_INIC_TRATATIVA", $this->dthr_inic_tratativa, PDO::PARAM_STR);
+            $stmt->bindParam(":DTHR_PRIM_REPORT", $this->dthr_prim_report, PDO::PARAM_STR);
+            $stmt->bindParam(":PRIM_RESPOSTA", $this->prim_resposta, PDO::PARAM_STR);
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
             $stmt->execute();
         }catch (PDOException $e){

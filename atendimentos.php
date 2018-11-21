@@ -36,7 +36,7 @@ if (isset($_POST['enviar'])) {
 	?>
 
 	<div class="container">
-		<h1>PES Portal - Atendimentos</h1>
+		<h1 class="mt-4">PES Portal - Atendimentos</h1>
 		
 		<section id="cardTickets">
     		<div class="card mb-3">
@@ -64,7 +64,7 @@ if (isset($_POST['enviar'])) {
             					<td><?=$res['prim_resposta']?></td>
             					<td><?=$res['dthr_ult_atualizacao']?></td>
             					<td>
-            						<a class="btn btn-outline-secondary btn-circle" href="detalhes.php?ticket_id=<?=$res['ticket_id']?>">
+            						<a class="btn btn-outline-secondary btn-circle" href="escalacao.php?ticket_id=<?=$res['ticket_id']?>">
 	            						<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar detalhes"></i>
             						</a>
             						<button class="btn btn-outline-success btn-circle" data-toggle="modal" data-target="#novoComentario" data-whatever="<?=$res['ticket_id']?>">
