@@ -8,6 +8,7 @@ class Manutencao{
     private $dthr_inicio;
     private $dthr_fim;
     private $descricao;
+    private $localidade;
     private $exibir;
     
     
@@ -60,7 +61,16 @@ class Manutencao{
     
     public function insert($manutencao) {
         try{
-            
+            $this->descricao = $manutencao['descricao'];
+            $this->dthr_inicio = $manutencao['dthr_inicio'];
+            $this->dthr_fim = $manutencao['dthr_fim'];
+            $this->localidade = $manutencao['localidade'];
+            $stmt = $this->conexao->conectar()->prepare("insert into tb_manutencoes(descricao, dthr_inicio, dthr_fim, localidade) values(:DESCRICAO, :DTHR_INICIO, :DTHR_FIM, :LOCALIDADE)");
+            $stmt->bindParam(":DESCRICAO", $this->descricao, PDO::PARAM_STR);
+            $stmt->bindParam(":DTHR_INICIO", $this->dthr_inicio, PDO::PARAM_STR);
+            $stmt->bindParam(":DTHR_FIM", $this->dthr_fim, PDO::PARAM_STR);
+            $stmt->bindParam(":LOCALIDADE", $this->localidade, PDO::PARAM_STR);
+            $stmt->execute();
         }catch (PDOException $e){
             return $e->getMessage();
         }
@@ -68,7 +78,40 @@ class Manutencao{
     
     public function update($manutencao) {
         try{
-            
+            $this->manutencoes_id = $manutencao['manutencoes_id'];
+            $this->descricao = $manutencao['descricao'];
+            $this->dthr_inicio = $manutencao['dthr_inicio'];
+            $this->dthr_fim = $manutencao['dthr_fim'];
+            $this->localidade = $manutencao['localidade'];
+            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set descricao = :DESCRICAO, dthr_inicio = :DTHR_INICIO, dthr_fim = :DTHR_FIM, localidade = :LOCALIDADE where manutencoes_id = :MANUTENCOES_ID");
+            $stmt->bindParam(":MANUTENCOES_ID", $this->manutencoes_id, PDO::PARAM_INT);
+            $stmt->bindParam(":DESCRICAO", $this->descricao, PDO::PARAM_STR);
+            $stmt->bindParam(":DTHR_INICIO", $this->dthr_inicio, PDO::PARAM_STR);
+            $stmt->bindParam(":DTHR_FIM", $this->dthr_fim, PDO::PARAM_STR);
+            $stmt->bindParam(":LOCALIDADE", $this->localidade, PDO::PARAM_STR);
+            $stmt->execute();
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }
+    
+    public function setAsVisible($manutencoes_id){
+        try{
+            $this->manutencoes_id = $manutencoes_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set exibir = 1 where manutencoes_id = :MANUTENCOES_ID");
+            $stmt->bindParam(":MANUTENCOES_ID", $this->manutencoes_id, PDO::PARAM_INT);
+            $stmt->execute();
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }
+    
+    public function setAsInvisible($manutencoes_id){
+        try{
+            $this->manutencoes_id = $manutencoes_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set exibir = 0 where manutencoes_id = :MANUTENCOES_ID");
+            $stmt->bindParam(":MANUTENCOES_ID", $this->manutencoes_id, PDO::PARAM_INT);
+            $stmt->execute();
         }catch (PDOException $e){
             return $e->getMessage();
         }

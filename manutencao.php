@@ -7,6 +7,17 @@ if(!isset($_SESSION['oneid'])){
     header("location: /pesportal/login.php");
 }
 
+if(isset($_GET['acao'])){
+    switch ($_GET['acao']){
+        case "exibir":
+            $manutencao->setAsVisible($_GET['manutencoes_id']);
+            break;
+        case "esconder":
+            $manutencao->setAsInvisible($_GET['manutencoes_id']);
+            break;
+    }
+}
+
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -28,8 +39,18 @@ if(!isset($_SESSION['oneid'])){
 	   
 	   if(isset($_POST['atualizarManutencao'])){
 	       $manutencao->update($_POST);
-	       echo '<div class="alert alert-info alert-dismissible fade show" role="alert">
-	    <p align="center">Informativo atualizado com sucesso!</p>
+	       echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+	    <p align="center">Manutenção atualizado com sucesso!</p>
+	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	    <span aria-hidden="true">&times;</span>
+	    </button>
+	    </div>';
+	   }
+	   
+	   if(isset($_POST['novaManutencao'])){
+	       $manutencao->insert($_POST);
+	       echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+	    <p align="center">Manutenção inserida com sucesso!</p>
 	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
 	    <span aria-hidden="true">&times;</span>
 	    </button>
@@ -40,7 +61,9 @@ if(!isset($_SESSION['oneid'])){
 	<div class="container">
 		<h1 class="mt-4">Manutenções Programadas</h1>
 		<hr>
-		<button class="btn btn-outline-form">Inserir Nova</button>
+		<div class="row justify-content-end">
+			<button type="button" class="btn btn-outline-form" data-toggle="modal" data-target="#novaManutencao">Inserir Nova Manutenção</button>
+		</div>
 		
 		<section id="tabelaManutencoes">
     		<table class="table table-bordered table-striped"  id="tableManutencoes">
@@ -62,11 +85,11 @@ if(!isset($_SESSION['oneid'])){
     					<td><?=$res['localidade']?></td>
     					<td>
     					<?php if($res['exibir'] == 0){?>
-    						<a class="btn btn-outline-success btn-circle" href="?acao=exibir&manutencoes_id=<?=$res['informativos_id']?>">
+    						<a class="btn btn-outline-success btn-circle" href="?acao=exibir&manutencoes_id=<?=$res['manutencoes_id']?>">
         						<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Tornar visivel na página inicial"></i>
     						</a>
     					<?php } else {?>
-							<a class="btn btn-outline-danger btn-circle" href="?acao=esconder&manutencoes_id=<?=$res['informativos_id']?>">
+							<a class="btn btn-outline-danger btn-circle" href="?acao=esconder&manutencoes_id=<?=$res['manutencoes_id']?>">
         						<i class="fas fa-eye-slash" data-toggle="tooltip" data-placement="top" title="Tornar invisivel na página inicial"></i>
     						</a>
     					<?php }?>
@@ -87,6 +110,7 @@ if(!isset($_SESSION['oneid'])){
 		</section><!-- fim da sessão tabelaInformativos -->
 	</div><!-- fim do container -->
 	
+	<!-- Modal para editar manutenção -->
 	<div class="modal fade" id="editarManutencao" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-lg" role="document">
 			<div class="modal-content">
@@ -126,7 +150,47 @@ if(!isset($_SESSION['oneid'])){
 			</div>
 		</div>
     </div>
-	
+
+	<!-- Modal para incluir manutenção -->
+	<div class="modal fade" id="novaManutencao" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+            		<h5 class="modal-title">Inserir nova manutenção</h5>
+            		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              		<span aria-hidden="true">&times;</span>
+		            </button>
+				</div>
+				<form method="post">
+					<div class="modal-body">
+						<div class="form-group">
+							<label for="descricao"><strong>Descrição:</strong></label>
+							<input type="text" class="form-control" id="descricao" name="descricao" required>
+						</div>
+						<div class="row">
+    						<div class="form-group col-md-3">
+    							<label for="dthr_inicio"><strong>Inicio:</strong></label>
+    							<input type="datetime-local" class="form-control" id="dthr_inicio" name="dthr_inicio" required>
+    						</div>
+    						<div class="form-group col-md-3">
+    							<label for="dthr_fim"><strong>Fim:</strong></label>
+    							<input type="datetime-local" class="form-control" id="dthr_fim" name="dthr_fim" required>
+    						</div>
+							<div class="form-group col-md-6">
+    							<label for="localidade"><strong>Localidade:</strong></label>
+    							<input type="text" class="form-control" id="localidade" name="localidade">
+    						</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+                		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                		<button type="submit" name="novaManutencao" class="btn btn-primary">Salvar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+    </div>
+    
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
@@ -148,7 +212,7 @@ if(!isset($_SESSION['oneid'])){
 			var localidade = button.data('localidade')
 			var modal = $(this)
 			modal.find('.modal-title').text('Editar Manutenção ' + recipient)
-			modal.find('#informativos_id').val(recipient)
+			modal.find('#manutencoes_id').val(recipient)
 			modal.find('#descricao').val(descricao)
 			modal.find('#dthr_inicio').val(dthr_inicio)
 			modal.find('#dthr_fim').val(dthr_fim)
