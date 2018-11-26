@@ -47,7 +47,7 @@ class Ticket extends Usuario{
     
     public function loadAll(){
         try{
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket t, tb_usuario u where t.oneid = u.oneid and t.tstatus <> 'Closed'");
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_ticket t, tb_usuario u where t.oneid = u.oneid and t.tstatus <> 'Closed' order by tstatus desc, dthr_ult_atualizacao asc");
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (PDOException $e){
@@ -104,7 +104,7 @@ class Ticket extends Usuario{
     public function archive($ticket_id){
         try{
             $this->ticket_id = $ticket_id;
-            $stmt = $this->conexao->conectar()->prepare("update tb_ticket set tstatus='Closed', dthr_ult_atualizacao = current_timestamp where ticket_id = :TICKET_ID");
+            $stmt = $this->conexao->conectar()->prepare("update tb_ticket set tstatus='Closed', dthr_ult_atualizacao = current_timestamp, dthr_encerramento = current_timestamp where ticket_id = :TICKET_ID");
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
             $stmt->execute();
         }catch (PDOException $e){
@@ -124,6 +124,17 @@ class Ticket extends Usuario{
             $stmt->bindParam(":DTHR_INIC_TRATATIVA", $this->dthr_inic_tratativa, PDO::PARAM_STR);
             $stmt->bindParam(":DTHR_PRIM_REPORT", $this->dthr_prim_report, PDO::PARAM_STR);
             $stmt->bindParam(":PRIM_RESPOSTA", $this->prim_resposta, PDO::PARAM_STR);
+            $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
+            $stmt->execute();
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }
+    
+    public function newLastUpdate($ticket_id){
+        try{
+            $this->ticket_id = $ticket_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_ticket set dthr_ult_atualizacao = current_timestamp where ticket_id = :TICKET_ID");
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
             $stmt->execute();
         }catch (PDOException $e){

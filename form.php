@@ -132,8 +132,6 @@ if (isset($_POST['enviar'])){
 			<br>
 			<button type="submit" name="enviar" class="btn btn-outline-form mb-2">Enviar</button>
 		</form>
-		
-
 	</div>
 
 	<!-- Optional JavaScript -->

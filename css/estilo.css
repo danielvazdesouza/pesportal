@@ -56,3 +56,24 @@ section{
 	font-size: 12px;
 	line-height: 1.42857;
 }
+
+.login-form{
+	margin-top: 60px;
+	box-shadow: 0px 0px 10px 1px grey;
+	border-radius: 5px;
+	padding-bottom: 20px;
+	background: white;
+}
+
+.login-title{
+	background: #303f9f;
+	padding: 10px;
+	text-align: center;
+	color:#fff;
+	border-radius: 0px 0px 10px 10px;
+}
+
+footer{
+	position: fixed;
+	bottom: 0px;
+}

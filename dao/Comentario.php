@@ -27,7 +27,7 @@ class Comentario extends Ticket{
     
     public function loadUnread(){
         try{
-            $stmt = $this->conexao->conectar()->prepare("SELECT c.comentarios_id, c.ticket_id, c.comentario, u.nome , c.dthr_publicacao FROM tb_comentarios c, tb_usuario u where c.oneid = u.oneid and c.lido = 0");
+            $stmt = $this->conexao->conectar()->prepare("SELECT c.comentarios_id, c.ticket_id, c.comentario, u.nome , c.dthr_publicacao FROM tb_comentarios c, tb_usuario u where c.oneid = u.oneid and c.lido = 0 and c.oneid <> 12345678");
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (PDOException $e){
@@ -73,6 +73,8 @@ class Comentario extends Ticket{
             $stmt->bindParam(":COMENTARIO", $this->comentario, PDO::PARAM_STR);
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
             $stmt->execute();
+            $ticket = new Ticket();
+            $ticket->newLastUpdate($this->ticket_id);
         }catch (PDOException $e){
             return $e->getMessage();
         }

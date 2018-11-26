@@ -1,9 +1,12 @@
 ﻿<?php 
 require_once 'dao/Ticket.php';
 require_once 'dao/Comentario.php';
+require_once 'inc/session.php';
 $tkt = new Ticket();
 $coment = new Comentario();
-
+if(!isset($_SESSION['oneid'])){
+    header("location: /pesportal/login.php");
+}
 if(isset($_GET['comentario'])){
     if($_GET['comentario'] == "lido"){
         $coment->setAsRead($_GET['comentarios_id']);
@@ -11,8 +14,15 @@ if(isset($_GET['comentario'])){
 }
 
 if (isset($_POST['enviar'])) {
-    $_POST['oneid'] = 12345678;
+    $_POST['oneid'] = $_SESSION['oneid'];
     $coment->insert($_POST);
+}
+
+if (isset($_POST['arquivar'])) {
+    $_POST['oneid'] = $_SESSION['oneid'];
+    $coment->insert($_POST);
+    $tkt->archive($_POST['ticket_id']);
+    echo '<script type="text/javascript">alert("O chamado foi arquivado.")</script>';
 }
 
 ?>
@@ -62,7 +72,7 @@ if (isset($_POST['enviar'])) {
             					<td><?=$res['tstatus']?></td>
             					<td><?=$res['nome']?></td>
             					<td><?=$res['prim_resposta']?></td>
-            					<td><?=$res['dthr_ult_atualizacao']?></td>
+            					<td><?=date("d/m/Y H:i",strtotime($res['dthr_ult_atualizacao']))?></td>
             					<td>
             						<a class="btn btn-outline-secondary btn-circle" href="escalacao.php?ticket_id=<?=$res['ticket_id']?>">
 	            						<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar detalhes"></i>
@@ -70,9 +80,9 @@ if (isset($_POST['enviar'])) {
             						<button class="btn btn-outline-success btn-circle" data-toggle="modal" data-target="#novoComentario" data-whatever="<?=$res['ticket_id']?>">
             							<i class="fas fa-plus" data-toggle="tooltip" data-placement="top" title="Adicionar comentário"></i>
             						</button>
-            						<a class="btn btn-outline-danger btn-circle" href="?acao=arquivar&ticket_id=<?=$res['ticket_id']?>">
+            						<button class="btn btn-outline-danger btn-circle" data-toggle="modal" data-target="#archive" data-whatever="<?=$res['ticket_id']?>">
 	            						<i class="fas fa-archive" data-toggle="tooltip" data-placement="top" title="Arquivar caso"></i>
-            						</a>
+            						</button>
             					</td>
             				</tr>
             				<?php }?>
@@ -104,11 +114,11 @@ if (isset($_POST['enviar'])) {
             					<td><?=$res['ticket_id']?></td>
             					<td><?=$res['comentario']?></td>
             					<td><?=$res['nome']?></td>
-            					<td><?=$res['dthr_publicacao']?></td>
+            					<td><?=date("d/m/Y H:i",strtotime($res['dthr_publicacao']))?></td>
             					<td>
-            						<button type="button" class="btn btn-outline-secondary btn-circle" name="<?=$res['comentarios_id']?>" id="<?=$res['comentarios_id']?>">
+            						<a type="button" class="btn btn-outline-secondary btn-circle" href="detalhes.php?ticket_id=<?=$res['ticket_id']?>">
             							<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar Comentário"></i>
-            						</button>
+            						</a>
             						<a class="btn btn-outline-success btn-circle" href="?comentario=lido&comentarios_id=<?=$res['comentarios_id']?>">
             							<i class="fas fa-check" data-toggle="tooltip" data-placement="top" title="Marcar como lido"></i>
             						</a>
@@ -127,7 +137,7 @@ if (isset($_POST['enviar'])) {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-            		<h5 class="modal-title">Novo Comentário</h5>
+            		<h5 class="modal-title"></h5>
             		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
               		<span aria-hidden="true">&times;</span>
 		            </button>
@@ -135,17 +145,41 @@ if (isset($_POST['enviar'])) {
 				<form method="post">
 					<div class="modal-body">
 						<div class="form-group">
-							<label for="ticket_id">Ticket:</label>
-							<input type="text" class="form-control" id="ticket_id" name="ticket_id">
+							<label for="comentario">Comentário:</label>
+							<textarea class="form-control" id="comentario" name="comentario" rows="5" required></textarea>
 						</div>
+					</div>
+					<input type="hidden" name="ticket_id" id="ticket_id">
+					<div class="modal-footer">
+                		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                		<button type="submit" name="enviar" class="btn btn-primary">Salvar</button>
+					</div>
+				</form>
+			</div>
+		</div>
+    </div>
+    
+    <!-- Modal para arquivar ticket -->
+    <div class="modal fade" id="archive" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+            		<h5 class="modal-title"></h5>
+            		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              		<span aria-hidden="true">&times;</span>
+		            </button>
+				</div>
+				<form method="post">
+					<div class="modal-body">
 						<div class="form-group">							
 							<label for="comentario">Comentário:</label>
 							<textarea class="form-control" id="comentario" name="comentario" rows="5" required></textarea>
 						</div>
 					</div>
+					<input type="hidden" name="ticket_id" id="ticket_id">
 					<div class="modal-footer">
                 		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                		<button type="submit" name="enviar" class="btn btn-primary">Salvar</button>
+                		<button type="submit" name="arquivar" class="btn btn-primary">Arquivar</button>
 					</div>
 				</form>
 			</div>
@@ -174,7 +208,17 @@ if (isset($_POST['enviar'])) {
 			var recipient = button.data('whatever')
 			var modal = $(this)
 			modal.find('.modal-title').text('Novo comentário para o ticket ' + recipient)
-			modal.find('.modal-body input').val(recipient)
+			modal.find('#ticket_id').val(recipient)
+		})
+	</script>
+	
+	<script type="text/javascript">
+		$('#archive').on('show.bs.modal',function(event){
+			var button = $(event.relatedTarget)
+			var recipient = button.data('whatever')
+			var modal = $(this)
+			modal.find('.modal-title').text('Deseja arquivar o ticket ' + recipient + ' ?')
+			modal.find('#ticket_id').val(recipient)
 		})
 	</script>
 </body>

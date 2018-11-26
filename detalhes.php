@@ -2,6 +2,7 @@
 
 require_once 'dao/Ticket.php';
 require_once 'dao/Comentario.php';
+require_once 'inc/session.php';
 
 $ticket = new Ticket();
 $comentario = new Comentario();
@@ -24,17 +25,21 @@ require_once 'inc/config.php';
 </head>
 <body>
     <!-- Navbar -->
-	<?php 
-	   require_once 'inc/topo_user.php';
+	<?php
+    	if(!isset($_SESSION['oneid'])){
+    	    require_once 'inc/topo_user.php';
+    	}else {
+    	    require_once 'inc/topo_admin.php';
+    	}
 	?>
 	
 	<!-- Introdução -->
 	<div class="container">
 	<header>
-		<div>
+		<div class="mt-4">
 			<?php foreach ($ticket->loadByID($_GET['ticket_id']) as $res){?>
 			<h1>Detalhes do Ticket: <?=$res['ticket_id']?></h1>
-			<h6>Ultima atualização do PES: 23/08/2018 17:59</h6>
+			<h6>Ultima atualização: <?=date("d/m/Y H:i",strtotime($res['dthr_ult_atualizacao']))?></h6>
 		</div>
 		<hr>
 	</header>
@@ -52,13 +57,19 @@ require_once 'inc/config.php';
 		<hr>
 	</section> <!-- Fim da sessão detalhes -->
     
+	<section id="adicionar">
+		<div class="row justify-content-end">
+			<button type="button" class="btn btn-outline-form" data-toggle="modal" data-target="#novoComentario"><i class="fas fa-plus"> Adicionar Comentário</i></button>
+		</div>
+	</section>
+    
     <section id="comentarios">
     <?php if($comentario->hasComments($_GET['ticket_id'])){
 
         foreach ($comentario->loadByID($_GET['ticket_id']) as $res){?>
 			<div class="card align-right mb-4">
             	<div class="card-header">
-                	<i class="far fa-comment-dots"></i> <?=$res['nome']?> - <?=$res['dthr_publicacao']?>
+                	<i class="far fa-comment-dots"></i> <?=$res['nome']?> - <?=date("d/m/Y H:i",strtotime($res['dthr_publicacao']))?>
 				</div>
 				<div class="card-body">
 				<p>
@@ -69,18 +80,8 @@ require_once 'inc/config.php';
 	<?php  }//fim do foreach
         }//fim do if ?>
 	</section>
-
-	<section id="adicionar">
-		<button type="button" class="btn btn-outline-form" data-toggle="modal" data-target="#novoComentario"><i class="fas fa-plus"> Adicionar Comentário</i></button>
-	</section>
 	
 	</div><!-- fim do containers -->
-	
-	<!-- Footer -->
-	<footer>
-		<div class="footer">
-		</div>	
-	</footer>
 	
 	<div class="modal fade" id="novoComentario" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
@@ -96,7 +97,7 @@ require_once 'inc/config.php';
 						<div class="form-group">
 							<label for="oneid">Informe o seu OneID:</label>
 							<input type="number" class="form-control col-sm-12 col-md-6" id="oneid" name="oneid" placeholder="OneID" required>
-							<label for="oneid">Comentário:</label>
+							<label for="comentario">Comentário:</label>
 							<textarea class="form-control" id="comentario" name="comentario" rows="5" required></textarea>
 						</div>
 					</div>
