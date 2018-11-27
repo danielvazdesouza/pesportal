@@ -8,7 +8,7 @@ Esse documento tem como objetivo apresentar e descrever o projeto final, fornece
 
 ## [Personas](personas.md)
 
-## [Planing Poker](planing-poker.md) 
+## [Planning Poker](planning-poker.md) 
 
 ## [Diagrama ER](diagrama-er.md)
 
