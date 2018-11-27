@@ -1,12 +1,15 @@
-﻿<?php 
-require_once 'dao/Ticket.php';
-require_once 'dao/Comentario.php';
+<?php
 require_once 'inc/session.php';
-$tkt = new Ticket();
-$coment = new Comentario();
 if(!isset($_SESSION['oneid'])){
     header("location: /pesportal/login.php");
 }
+
+require_once 'dao/Ticket.php';
+require_once 'dao/Comentario.php';
+
+$tkt = new Ticket();
+$coment = new Comentario();
+
 if(isset($_GET['comentario'])){
     if($_GET['comentario'] == "lido"){
         $coment->setAsRead($_GET['comentarios_id']);

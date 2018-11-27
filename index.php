@@ -51,8 +51,8 @@ if(isset($_GET['enviar'])){
     	</section> <!-- Fim da sessão priorizacao -->
     
     	<section id="alta_prioridade">
-    		<div class="card border-warning my-4">
-    			<div class="card-header bg-warning">
+    		<div class="card my-4">
+    			<div class="card-header">
     				<i class="fas fa-exclamation-triangle"></i>
     				<strong>Tickets de Alta Prioridade</strong>
     			</div>
@@ -80,8 +80,8 @@ if(isset($_GET['enviar'])){
     	</section><!-- fim da sessão alta prioridade -->
     		
     	<section id="calendario">
-    		<div class="card border-info my-4">
-    			<div class="card-header bg-info">
+    		<div class="card my-4">
+    			<div class="card-header">
     			<i class="fas fa-calendar-alt"></i>
     				<strong>Calendário de Manutenções Confirmadas:</strong>
     			</div>
@@ -114,10 +114,6 @@ if(isset($_GET['enviar'])){
     		</div>
     	</section><!-- Fim da sessão calendario -->
 	</div><!-- fim do containers -->
-	
-	<?php 
-	   require_once 'inc/rodape.php';
-	?>
 
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/popper.min.js"></script>

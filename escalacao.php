@@ -1,14 +1,16 @@
-<?php 
-require_once 'dao/Ticket.php';
-require_once 'dao/Escalacao.php';
-require_once 'dao/Comentario.php';
+<?php
 require_once 'inc/session.php';
-$ticket = new Ticket();
-$escalacao = new Escalacao();
-$comentario = new Comentario();
 if(!isset($_SESSION['oneid'])){
     header("location: /pesportal/login.php");
 }
+
+require_once 'dao/Ticket.php';
+require_once 'dao/Escalacao.php';
+require_once 'dao/Comentario.php';
+$ticket = new Ticket();
+$escalacao = new Escalacao();
+$comentario = new Comentario();
+
 
 $_POST['ticket_id'] = $_GET['ticket_id'];
 $_POST['oneid'] = $_SESSION['oneid'];

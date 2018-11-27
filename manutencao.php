@@ -1,11 +1,11 @@
 <?php
 require_once 'inc/session.php';
+if(!isset($_SESSION['oneid'])){
+    header('location: /pesportal/login.php');
+}
+
 require_once 'dao/Manutencao.php';
 $manutencao = new Manutencao();
-
-if(!isset($_SESSION['oneid'])){
-    header("location: /pesportal/login.php");
-}
 
 if(isset($_GET['acao'])){
     switch ($_GET['acao']){

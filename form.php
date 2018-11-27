@@ -1,27 +1,9 @@
-﻿<?php 
+<?php 
 require_once 'dao/Usuario.php';
 require_once 'dao/Ticket.php';
 
 $usuario = new Usuario();
 $ticket = new Ticket();
-$existe = false;
-
-if (isset($_POST['enviar'])){
-
-    if($usuario->exists($_POST['oneid']) == FALSE){
-        $usuario->insert($_POST);
-    }
-
-    if($ticket->exists($_POST['ticket_id'])){
-
-        $existe = true;
-        //header("location: /pesportal/detalhes.php?ticket_id=".$_POST['ticket_id']);
-    } else {
-        $ticket->insert($_POST);
-        echo '<script type="text/javascript">alert("Solicitação efetuada, em breve você receberá contato da equipe PES IT")</script>';
-        header("location: /pesportal/detalhes.php?ticket_id=".$_POST['ticket_id']);
-    }
-}
 ?>
 <!doctype html>
 <html lang="pt-br">
@@ -38,14 +20,32 @@ if (isset($_POST['enviar'])){
 	<?php 
 	   require_once 'inc/topo_user.php';
 
-	if($existe){
-	    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
-	    <p align="center">Ticket <strong>'.$_POST['ticket_id'].'</strong> já está em processo de Priorização/Escalação <a href="detalhes.php?ticket_id='.$_POST['ticket_id'].'">Veja aqui</a></p>
-	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-	    <span aria-hidden="true">&times;</span>
-	    </button>
-	    </div>';
-	}
+	   if (isset($_POST['enviar'])){
+	       
+	       if($usuario->exists($_POST['oneid']) == FALSE){
+	           $usuario->insert($_POST);
+	       }
+
+    	   if($ticket->exists($_POST['ticket_id'])){
+    	    echo '<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    	    <p align="center">Ticket <strong>'.$_POST['ticket_id'].'</strong> já está em processo de Priorização/Escalação <a href="detalhes.php?ticket_id='.$_POST['ticket_id'].'">Veja aqui</a></p>
+    	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    	    <span aria-hidden="true">&times;</span>
+    	    </button>
+    	    </div>';
+    	    
+    	   } else {
+    	       
+    	       $ticket->insert($_POST);
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        	    <p align="center">Solicitação efetuada, em breve você receberá contato da equipe PES IT, para visualizar detalhes da sua solicitação
+                <a href="detalhes.php?ticket_id='.$_POST['ticket_id'].'">Clique aqui</a></p>
+        	    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        	    <span aria-hidden="true">&times;</span>
+        	    </button>
+        	    </div>';
+    	   }
+	   }
 	?>
 	<!-- Introdução -->
 	<div class="container">
