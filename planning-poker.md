@@ -1,8 +1,6 @@
 # Planning Poker
 
-Alimentos | Preço
+Funcionalidade | Valor
 --------- | ------
-Arroz     | R$ 10
-Feijão    | R$ 8
-Batata    | R$ 7
-Macarrão  | R$ 8
+Listagem de atendimento | 89
+Criar o formulário | 55
