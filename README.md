@@ -1,16 +1,18 @@
 # Documentação e Artefatos
 
-Esse documento tem como objetivo apresentar e descrever o projeto final, fornecendo informações e artefatos sobre a concepção do produto, o seu planejamento, as decisões arquiteturais, desenvolvimento, testes/validação e conclusões.teste
+Esse documento tem como objetivo apresentar e descrever o projeto final, fornecendo informações e artefatos sobre a concepção do produto, o seu planejamento, as decisões arquiteturais, desenvolvimento, testes/validação e conclusões.
 
-## [Canvas do Produto](canvas-do-produto.md)
+## [Benchmarking](benchmarking.md)
 
-## [Planejamento da Release](planejamento-da-release.md)
+## [MVP Canvas](mvp-canvas.md)
 
-## [Representação da Arquitetura](representacao-da-arquitetura.md) 
+## [Personas](personas.md)
 
-## [Desenvolvimento da Solução](desenvolvimento-da-solucao.md)
+## [Planing Poker](planing-poker.md) 
 
-## [Testes e Validação](testes.md)
+## [Diagrama ER](diagrama-er.md)
+
+## [Wireframes](wireframes.md)
 
 ## [POSTMORTEM](postmortem.md)
 
