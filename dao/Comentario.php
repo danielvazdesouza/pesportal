@@ -6,7 +6,7 @@ require_once 'dao/Usuario.php';
 
 class Comentario extends Ticket{
     private $conexao;
-    private $comentarios_id;
+    private $comentario_id;
     private $dthr_publicacao;
     private $comentario;
     private $lido;
@@ -27,7 +27,7 @@ class Comentario extends Ticket{
     
     public function loadUnread(){
         try{
-            $stmt = $this->conexao->conectar()->prepare("SELECT c.comentarios_id, c.ticket_id, c.comentario, u.nome , c.dthr_publicacao FROM tb_comentarios c, tb_usuario u where c.oneid = u.oneid and c.lido = 0 and c.oneid <> 12345678");
+            $stmt = $this->conexao->conectar()->prepare("SELECT c.comentario_id, c.ticket_id, c.comentario, u.nome , c.dthr_publicacao FROM tb_comentarios c, tb_usuarios u where c.oneid = u.oneid and c.lido = 0 and c.oneid <> 12345678");
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (PDOException $e){
@@ -38,7 +38,7 @@ class Comentario extends Ticket{
     public function loadByID($ticket_id){
         try{
             $this->ticket_id = $ticket_id;
-            $stmt = $this->conexao->conectar()->prepare("SELECT c.comentarios_id, c.ticket_id, c.comentario, u.nome , c.dthr_publicacao FROM tb_comentarios c, tb_usuario u where c.oneid = u.oneid and ticket_id = :TICKET_ID order by c.dthr_publicacao desc");
+            $stmt = $this->conexao->conectar()->prepare("SELECT c.comentario_id, c.ticket_id, c.comentario, u.nome , c.dthr_publicacao FROM tb_comentarios c, tb_usuarios u where c.oneid = u.oneid and ticket_id = :TICKET_ID order by c.dthr_publicacao desc");
             $stmt->bindParam(":TICKET_ID", $this->ticket_id, PDO::PARAM_STR);
             $stmt->execute();
             return $stmt->fetchAll();
@@ -80,11 +80,11 @@ class Comentario extends Ticket{
         }
     }
     
-    public function setAsRead($comentarios_id){
+    public function setAsRead($comentario_id){
         try{
-            $this->comentarios_id = $comentarios_id;
-            $stmt = $this->conexao->conectar()->prepare("update tb_comentarios set lido = 1 where comentarios_id = :COMENTARIOS_ID");
-            $stmt->bindParam(":COMENTARIOS_ID", $this->comentarios_id, PDO::PARAM_INT);
+            $this->comentario_id = $comentario_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_comentarios set lido = 1 where comentario_id = :COMENTARIO_ID");
+            $stmt->bindParam(":COMENTARIO_ID", $this->comentario_id, PDO::PARAM_INT);
             $stmt->execute();
         } catch(PDOException $e){
             return $e->getMessage();

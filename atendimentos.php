@@ -12,7 +12,7 @@ $coment = new Comentario();
 
 if(isset($_GET['comentario'])){
     if($_GET['comentario'] == "lido"){
-        $coment->setAsRead($_GET['comentarios_id']);
+        $coment->setAsRead($_GET['comentario_id']);
     }
 }
 
@@ -119,10 +119,10 @@ if (isset($_POST['arquivar'])) {
             					<td><?=$res['nome']?></td>
             					<td><?=date("d/m/Y H:i",strtotime($res['dthr_publicacao']))?></td>
             					<td>
-            						<a type="button" class="btn btn-outline-secondary btn-circle" href="detalhes.php?ticket_id=<?=$res['ticket_id']?>">
+            						<a class="btn btn-outline-secondary btn-circle" href="detalhes.php?ticket_id=<?=$res['ticket_id']?>">
             							<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Visualizar Comentário"></i>
             						</a>
-            						<a class="btn btn-outline-success btn-circle" href="?comentario=lido&comentarios_id=<?=$res['comentarios_id']?>">
+            						<a class="btn btn-outline-success btn-circle" href="?comentario=lido&comentario_id=<?=$res['comentario_id']?>">
             							<i class="fas fa-check" data-toggle="tooltip" data-placement="top" title="Marcar como lido"></i>
             						</a>
             					</td>
@@ -224,5 +224,7 @@ if (isset($_POST['arquivar'])) {
 			modal.find('#ticket_id').val(recipient)
 		})
 	</script>
+	
+	<?php require_once 'inc/rodape.php';?>
 </body>
 </html>

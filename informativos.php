@@ -10,10 +10,10 @@ $informativo = new Informativo();
 if(isset($_GET['acao'])){
     switch ($_GET['acao']){
         case "exibir":
-            $informativo->setAsVisible($_GET['informativos_id']);
+            $informativo->setAsVisible($_GET['informativo_id']);
             break;
         case "esconder":
-            $informativo->setAsInvisible($_GET['informativos_id']);
+            $informativo->setAsInvisible($_GET['informativo_id']);
             break;
     }
 }
@@ -85,16 +85,16 @@ if(isset($_GET['acao'])){
     					<td><?=(isset($res['dthr_envio'])) ? "Sim" : "Não"?></td>
     					<td>
     					<?php if($res['exibir'] == 0){?>
-    						<a class="btn btn-outline-success btn-circle" href="?acao=exibir&informativos_id=<?=$res['informativos_id']?>">
+    						<a class="btn btn-outline-success btn-circle" href="?acao=exibir&informativo_id=<?=$res['informativo_id']?>">
         						<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Tornar visivel na página inicial"></i>
     						</a>
     					<?php } else {?>
-							<a class="btn btn-outline-danger btn-circle" href="?acao=esconder&informativos_id=<?=$res['informativos_id']?>">
+							<a class="btn btn-outline-danger btn-circle" href="?acao=esconder&informativo_id=<?=$res['informativo_id']?>">
         						<i class="fas fa-eye-slash" data-toggle="tooltip" data-placement="top" title="Tornar invisivel na página inicial"></i>
     						</a>
     					<?php }?>
     						<button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#editarInformativo"
-								data-whatever="<?=$res['informativos_id']?>"
+								data-whatever="<?=$res['informativo_id']?>"
 								data-titulo="<?=$res['titulo']?>"
 								data-oneid="<?=$res['oneid']?>"
 								data-solicitacao="<?=date("Y-m-d\TH:i",strtotime($res['dthr_solicitacao']))?>"
@@ -170,7 +170,7 @@ if(isset($_GET['acao'])){
     						</div>
 						</div>
 					</div>
-					<input type="hidden" name="informativos_id" id="informativos_id">
+					<input type="hidden" name="informativo_id" id="informativo_id">
 					<div class="modal-footer">
                 		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 		<button type="submit" name="atualizarInformativo" class="btn btn-primary">Salvar</button>
@@ -269,7 +269,7 @@ if(isset($_GET['acao'])){
 			var ticket = button.data('ticket')
 			var modal = $(this)
 			modal.find('.modal-title').text('Editar Informativo ' + recipient)
-			modal.find('#informativos_id').val(recipient)
+			modal.find('#informativo_id').val(recipient)
 			modal.find('#titulo').val(titulo)
 			modal.find('#oneid').val(oneid)
 			modal.find('#dthr_solicitacao').val(dthr_solicitacao)
@@ -281,6 +281,6 @@ if(isset($_GET['acao'])){
 			modal.find('#ticket').val(ticket)
 		})
 	</script>
-	
+	<?php require_once 'inc/rodape.php';?>
 </body>
 </html>

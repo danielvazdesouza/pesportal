@@ -11,7 +11,7 @@ class Conexao{
         $this->host = "localhost";
         $this->user = "root";
         $this->pass = "";
-        $this->database = "portalpes";
+        $this->database = "teste";
     }
     
     public function conectar() {

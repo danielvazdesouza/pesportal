@@ -10,10 +10,10 @@ $manutencao = new Manutencao();
 if(isset($_GET['acao'])){
     switch ($_GET['acao']){
         case "exibir":
-            $manutencao->setAsVisible($_GET['manutencoes_id']);
+            $manutencao->setAsVisible($_GET['manutencao_id']);
             break;
         case "esconder":
-            $manutencao->setAsInvisible($_GET['manutencoes_id']);
+            $manutencao->setAsInvisible($_GET['manutencao_id']);
             break;
     }
 }
@@ -85,16 +85,16 @@ if(isset($_GET['acao'])){
     					<td><?=$res['localidade']?></td>
     					<td>
     					<?php if($res['exibir'] == 0){?>
-    						<a class="btn btn-outline-success btn-circle" href="?acao=exibir&manutencoes_id=<?=$res['manutencoes_id']?>">
+    						<a class="btn btn-outline-success btn-circle" href="?acao=exibir&manutencao_id=<?=$res['manutencao_id']?>">
         						<i class="fas fa-eye" data-toggle="tooltip" data-placement="top" title="Tornar visivel na página inicial"></i>
     						</a>
     					<?php } else {?>
-							<a class="btn btn-outline-danger btn-circle" href="?acao=esconder&manutencoes_id=<?=$res['manutencoes_id']?>">
+							<a class="btn btn-outline-danger btn-circle" href="?acao=esconder&manutencao_id=<?=$res['manutencao_id']?>">
         						<i class="fas fa-eye-slash" data-toggle="tooltip" data-placement="top" title="Tornar invisivel na página inicial"></i>
     						</a>
     					<?php }?>
     						<button class="btn btn-outline-warning btn-circle" data-toggle="modal" data-target="#editarManutencao"
-								data-whatever="<?=$res['manutencoes_id']?>"
+								data-whatever="<?=$res['manutencao_id']?>"
 								data-descricao="<?=$res['descricao']?>"
 								data-inicio="<?=date("Y-m-d\TH:i",strtotime($res['dthr_inicio']))?>"
 								data-fim="<?=date("Y-m-d\TH:i",strtotime($res['dthr_fim']))?>"
@@ -141,7 +141,7 @@ if(isset($_GET['acao'])){
     						</div>
 						</div>
 					</div>
-					<input type="hidden" name="manutencoes_id" id="manutencoes_id">
+					<input type="hidden" name="manutencao_id" id="manutencao_id">
 					<div class="modal-footer">
                 		<button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 		<button type="submit" name="atualizarManutencao" class="btn btn-primary">Atualizar</button>
@@ -212,13 +212,13 @@ if(isset($_GET['acao'])){
 			var localidade = button.data('localidade')
 			var modal = $(this)
 			modal.find('.modal-title').text('Editar Manutenção ' + recipient)
-			modal.find('#manutencoes_id').val(recipient)
+			modal.find('#manutencao_id').val(recipient)
 			modal.find('#descricao').val(descricao)
 			modal.find('#dthr_inicio').val(dthr_inicio)
 			modal.find('#dthr_fim').val(dthr_fim)
 			modal.find('#localidade').val(localidade)
 		})
 	</script>
-	
+	<?php require_once 'inc/rodape.php';?>
 </body>
 </html>

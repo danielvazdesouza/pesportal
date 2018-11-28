@@ -4,7 +4,7 @@ require_once 'dao/Conexao.php';
 
 class Manutencao{
     private $conexao;
-    private $manutencoes_id;
+    private $manutencao_id;
     private $dthr_inicio;
     private $dthr_fim;
     private $descricao;
@@ -78,13 +78,13 @@ class Manutencao{
     
     public function update($manutencao) {
         try{
-            $this->manutencoes_id = $manutencao['manutencoes_id'];
+            $this->manutencao_id = $manutencao['manutencao_id'];
             $this->descricao = $manutencao['descricao'];
             $this->dthr_inicio = $manutencao['dthr_inicio'];
             $this->dthr_fim = $manutencao['dthr_fim'];
             $this->localidade = $manutencao['localidade'];
-            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set descricao = :DESCRICAO, dthr_inicio = :DTHR_INICIO, dthr_fim = :DTHR_FIM, localidade = :LOCALIDADE where manutencoes_id = :MANUTENCOES_ID");
-            $stmt->bindParam(":MANUTENCOES_ID", $this->manutencoes_id, PDO::PARAM_INT);
+            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set descricao = :DESCRICAO, dthr_inicio = :DTHR_INICIO, dthr_fim = :DTHR_FIM, localidade = :LOCALIDADE where manutencao_id = :MANUTENCAO_ID");
+            $stmt->bindParam(":MANUTENCAO_ID", $this->manutencao_id, PDO::PARAM_INT);
             $stmt->bindParam(":DESCRICAO", $this->descricao, PDO::PARAM_STR);
             $stmt->bindParam(":DTHR_INICIO", $this->dthr_inicio, PDO::PARAM_STR);
             $stmt->bindParam(":DTHR_FIM", $this->dthr_fim, PDO::PARAM_STR);
@@ -95,22 +95,22 @@ class Manutencao{
         }
     }
     
-    public function setAsVisible($manutencoes_id){
+    public function setAsVisible($manutencao_id){
         try{
-            $this->manutencoes_id = $manutencoes_id;
-            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set exibir = 1 where manutencoes_id = :MANUTENCOES_ID");
-            $stmt->bindParam(":MANUTENCOES_ID", $this->manutencoes_id, PDO::PARAM_INT);
+            $this->manutencao_id = $manutencao_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set exibir = 1 where manutencao_id = :MANUTENCAO_ID");
+            $stmt->bindParam(":MANUTENCAO_ID", $this->manutencao_id, PDO::PARAM_INT);
             $stmt->execute();
         }catch (PDOException $e){
             return $e->getMessage();
         }
     }
     
-    public function setAsInvisible($manutencoes_id){
+    public function setAsInvisible($manutencao_id){
         try{
-            $this->manutencoes_id = $manutencoes_id;
-            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set exibir = 0 where manutencoes_id = :MANUTENCOES_ID");
-            $stmt->bindParam(":MANUTENCOES_ID", $this->manutencoes_id, PDO::PARAM_INT);
+            $this->manutencao_id = $manutencao_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_manutencoes set exibir = 0 where manutencao_id = :MANUTENCAO_ID");
+            $stmt->bindParam(":MANUTENCAO_ID", $this->manutencao_id, PDO::PARAM_INT);
             $stmt->execute();
         }catch (PDOException $e){
             return $e->getMessage();

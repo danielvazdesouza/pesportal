@@ -116,5 +116,6 @@ require_once 'inc/config.php';
 	<script src="js/popper.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
 	
+	<?php require_once 'inc/rodape.php';?>
 </body>
 </html>

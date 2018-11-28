@@ -5,7 +5,7 @@ require_once 'dao/Conexao.php';
 
 class Informativo extends Usuario{
     private $conexao;
-    private $informativos_id;
+    private $informativo_id;
     private $titulo;
     private $dthr_solicitacao;
     private $oneid;
@@ -31,11 +31,11 @@ class Informativo extends Usuario{
         return $this->$atributo;
     }
     
-    public function loadByID($informativos_id){
+    public function loadByID($informativo_id){
         try{
-            $this->informativos_id = $informativos_id;
-            $stmt = $this->conexao->conectar()->prepare("SELECT * FROM tb_informativos i, tb_usuario u where i.oneid = u.oneid and informativos_id = :INFORMATIVOS_ID order by c.dthr_solicitacao desc");
-            $stmt->bindParam(":INFORMATIVOS_ID", $this->informativos_id, PDO::PARAM_INT);
+            $this->informativo_id = $informativo_id;
+            $stmt = $this->conexao->conectar()->prepare("SELECT * FROM tb_informativos i, tb_usuarios u where i.oneid = u.oneid and informativo_id = :INFORMATIVO_ID order by c.dthr_solicitacao desc");
+            $stmt->bindParam(":INFORMATIVO_ID", $this->informativo_id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (PDOException $e){
@@ -45,7 +45,7 @@ class Informativo extends Usuario{
     
     public function loadAll(){
         try{
-            $stmt = $this->conexao->conectar()->prepare("SELECT * FROM tb_informativos i, tb_usuario u where i.oneid = u.oneid order by i.dthr_solicitacao desc");
+            $stmt = $this->conexao->conectar()->prepare("SELECT * FROM tb_informativos i, tb_usuarios u where i.oneid = u.oneid order by i.dthr_solicitacao desc");
             $stmt->execute();
             return $stmt->fetchAll();
         }catch (PDOException $e){
@@ -63,6 +63,20 @@ class Informativo extends Usuario{
         }
     }//fim do loadIndex
     
+    public function infoExists(){
+        try{
+            $stmt = $this->conexao->conectar()->prepare("SELECT * FROM tb_informativos where exibir = 1 order by dthr_solicitacao desc");
+            $stmt->execute();
+            $stmt->fetchAll();
+            if($stmt->rowCount() > 0){
+                return true;
+            } else {
+                false;
+            }
+        }catch (PDOException $e){
+            return $e->getMessage();
+        }
+    }//fim do exists
     
     public function insert($informativo) {
         try{
@@ -104,10 +118,10 @@ class Informativo extends Usuario{
             $this->destinatario = $informativo['destinatario'];
             $this->categoria = $informativo['categoria'];
             $this->ticket = $informativo['ticket'];
-            $this->informativos_id = $informativo['informativos_id'];
+            $this->informativo_id = $informativo['informativo_id'];
             $stmt = $this->conexao->conectar()->prepare("update tb_informativos set titulo = :TITULO, dthr_solicitacao = :DTHR_SOLICITACAO, oneid = :ONEID,
                 dthr_env_aprovacao = :DTHR_ENV_APROVACAO, dthr_envio = :DTHR_ENVIO, dthr_aprovacao = :DTHR_APROVACAO, destinatario = :DESTINATARIO, categoria = :CATEGORIA,
-                ticket = :TICKET where informativos_id = :INFORMATIVOS_ID");
+                ticket = :TICKET where informativo_id = :INFORMATIVO_ID");
             $stmt->bindParam(":TITULO", $this->titulo, PDO::PARAM_STR);
             $stmt->bindParam(":DTHR_SOLICITACAO", $this->dthr_solicitacao, PDO::PARAM_STR);
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
@@ -117,29 +131,29 @@ class Informativo extends Usuario{
             $stmt->bindParam(":DESTINATARIO", $this->destinatario, PDO::PARAM_STR);
             $stmt->bindParam(":CATEGORIA", $this->categoria, PDO::PARAM_STR);
             $stmt->bindParam(":TICKET", $this->ticket, PDO::PARAM_STR);
-            $stmt->bindParam(":INFORMATIVOS_ID", $this->informativos_id, PDO::PARAM_INT);
+            $stmt->bindParam(":INFORMATIVO_ID", $this->informativo_id, PDO::PARAM_INT);
             $stmt->execute();
         }catch (PDOException $e){
             return $e->getMessage();
         }
     }
     
-    public function setAsVisible($informativos_id){
+    public function setAsVisible($informativo_id){
         try{
-            $this->informativos_id = $informativos_id;
-            $stmt = $this->conexao->conectar()->prepare("update tb_informativos set exibir = 1 where informativos_id = :INFORMATIVOS_ID");
-            $stmt->bindParam(":INFORMATIVOS_ID", $this->informativos_id, PDO::PARAM_INT);
+            $this->informativo_id = $informativo_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_informativos set exibir = 1 where informativo_id = :INFORMATIVO_ID");
+            $stmt->bindParam(":INFORMATIVO_ID", $this->informativo_id, PDO::PARAM_INT);
             $stmt->execute();
         }catch (PDOException $e){
             return $e->getMessage();
         }
     }
     
-    public function setAsInvisible($informativos_id){
+    public function setAsInvisible($informativo_id){
         try{
-            $this->informativos_id = $informativos_id;
-            $stmt = $this->conexao->conectar()->prepare("update tb_informativos set exibir = 0 where informativos_id = :INFORMATIVOS_ID");
-            $stmt->bindParam(":INFORMATIVOS_ID", $this->informativos_id, PDO::PARAM_INT);
+            $this->informativo_id = $informativo_id;
+            $stmt = $this->conexao->conectar()->prepare("update tb_informativos set exibir = 0 where informativo_id = :INFORMATIVO_ID");
+            $stmt->bindParam(":INFORMATIVO_ID", $this->informativo_id, PDO::PARAM_INT);
             $stmt->execute();
         }catch (PDOException $e){
             return $e->getMessage();

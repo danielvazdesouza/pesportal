@@ -139,6 +139,7 @@ $ticket = new Ticket();
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
+	<?php require_once 'inc/rodape.php';?>
 </body>
 </html>
 

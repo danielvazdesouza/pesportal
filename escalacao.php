@@ -343,6 +343,6 @@ if(isset($_GET['escalacao_id'])){
 			modal.find('#resolver_group').val(resolver_group)
 		})
 	</script>
-	
+	<?php require_once 'inc/rodape.php';?>
 </body>
 </html>

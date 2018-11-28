@@ -44,7 +44,7 @@ if(isset($_GET['enviar'])){
     			<div class="input-group">
     				<input type="text" class="form-control col-sm-12 col-md-3" id="ticket_id" name="ticket_id" placeholder="CHXXXXXX">
         			<div class="input-group-append">
-    					<button type="submit" name="enviar" class="btn btn-outline-form">Enviar</button>
+    					<button type="submit" name="enviar" class="btn btn-outline-form">Ok</button>
         			</div>
     			</div>
     		</form>
@@ -56,6 +56,7 @@ if(isset($_GET['enviar'])){
     				<i class="fas fa-exclamation-triangle"></i>
     				<strong>Tickets de Alta Prioridade</strong>
     			</div>
+    			<?php if ($informativo->infoExists()){?>
     			<div class="card-body">
     				<table class="table">
     					<thead>
@@ -76,6 +77,9 @@ if(isset($_GET['enviar'])){
     					</tbody>
     				</table>
     			</div>
+    			<?php } else{
+                    echo '<div class="mx-4 my-4">Não informações a serem exibidas.</div>';
+    			}?>
     		</div>
     	</section><!-- fim da sessão alta prioridade -->
     		
@@ -91,18 +95,18 @@ if(isset($_GET['enviar'])){
     					<thead>
     						<tr>
         						<th scope="col">Sistemas impactados</th>
-        						<th scope="col">Incio</th>
-        						<th scope="col">Termino</th>
         						<th scope="col">Localidade</th>
+        						<th scope="col">Início</th>
+        						<th scope="col">Termino</th>
     						</tr>
     					</thead>
     					<tbody>
     						<?php foreach ($manutencao->loadIndex() as $res){?>
     						<tr>
+    							<td scope="col"><?=$res['localidade']?></td>
     							<td scope="col"><?=$res['descricao']?></td>
         						<td scope="col"><?=date("d/m/Y H:i",strtotime($res['dthr_inicio']))?></td>
     							<td scope="col"><?=date("d/m/Y H:i",strtotime($res['dthr_fim']))?></td>
-    							<td scope="col"><?=$res['localidade']?></td>
     						</tr>
     						<?php }?>
     					</tbody>
@@ -118,5 +122,7 @@ if(isset($_GET['enviar'])){
 	<script src="js/jquery-3.3.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="bootstrap/js/bootstrap.min.js"></script>
+	
+	<?php require_once 'inc/rodape.php';?>
 </body>
 </html>

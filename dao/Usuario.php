@@ -26,7 +26,7 @@ class Usuario implements InterfaceDB{
     public function loadByID($oneid){
         try{
             $this->oneid = $oneid;
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_usuario where oneid = :ONEID");
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_usuarios where oneid = :ONEID");
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetch();
@@ -37,7 +37,7 @@ class Usuario implements InterfaceDB{
     
     public function loadAll() {
         try{
-            $stmt = $this->conexao->conectar()->prepare("select * from tb_usuario");
+            $stmt = $this->conexao->conectar()->prepare("select * from tb_usuarios");
             $stmt->execute();
             return $stmt->fetch();
         }catch (PDOException $e){
@@ -52,7 +52,7 @@ class Usuario implements InterfaceDB{
             $this->localidade = $usuario['localidade'];
             $this->email = $usuario['email'];
             $this->telefone = $usuario['telefone'];
-            $stmt = $this->conexao->conectar()->prepare("insert into tb_usuario(oneid, nome, email, localidade, telefone) values (:ONEID, :NOME, :EMAIL, :LOCALIDADE, :TELEFONE)");
+            $stmt = $this->conexao->conectar()->prepare("insert into tb_usuarios(oneid, nome, email, localidade, telefone) values (:ONEID, :NOME, :EMAIL, :LOCALIDADE, :TELEFONE)");
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
             $stmt->bindParam(":NOME", $this->nome, PDO::PARAM_STR);
             $stmt->bindParam(":EMAIL", $this->email, PDO::PARAM_STR);
@@ -76,7 +76,7 @@ class Usuario implements InterfaceDB{
             $this->localidade = $usuario['localidade'];
             $this->email = $usuario['email'];
             $this->telefone = $usuario['telefone'];
-            $stmt = $this->conexao->conectar()->prepare("update tb_usuario set nome = :NOME, email = :EMAIL, localidade = :LOCALIDADE, telefone = :TELEFONE where oneid = :ONEID");
+            $stmt = $this->conexao->conectar()->prepare("update tb_usuarios set nome = :NOME, email = :EMAIL, localidade = :LOCALIDADE, telefone = :TELEFONE where oneid = :ONEID");
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
             $stmt->bindParam(":NOME", $this->nome, PDO::PARAM_STR);
             $stmt->bindParam(":EMAIL", $this->email, PDO::PARAM_STR);
@@ -96,7 +96,7 @@ class Usuario implements InterfaceDB{
     public function exists($oneid){
         try{
             $this->oneid = $oneid;
-            $stmt = $this->conexao->conectar()->prepare("select oneid from tb_usuario where oneid = :ONEID");
+            $stmt = $this->conexao->conectar()->prepare("select oneid from tb_usuarios where oneid = :ONEID");
             $stmt->bindParam(":ONEID", $this->oneid, PDO::PARAM_INT);
             $stmt->execute();
             if($stmt->rowCount() > 0){
