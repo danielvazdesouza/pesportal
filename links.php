@@ -31,7 +31,7 @@
     				</tr>
 					<tr>
     					<td>TechDeck</td>
-    					<td><a href="https://fast.fujitsu.com/main">https://fast.fujitsu.com/main</a></td>
+    					<td><a href="https://fast.fujitsu.fi/main">https://fast.fujitsu.fi/main</a></td>
     				</tr>
 					<tr>
     					<td>Onedrive</td>
@@ -39,39 +39,11 @@
     				</tr>
     				<tr>
     					<td>Interact</td>
-    					<td><a href="https://interact/">https://interact/</a></td>
+    					<td><a href="http://interact/">https://interact/</a></td>
     				</tr>
     				<tr>
     					<td>Cherwell IT</td>
     					<td><a href="http://bat.cherwellondemand.com/CherwellClient/Access">http://bat.cherwellondemand.com/CherwellClient/Access</a></td>
-    				</tr>
-    				<tr>
-    					<td>TechDeck</td>
-    					<td><a href="https://neo.batgen.com">https://neo.batgen.com</a></td>
-    				</tr>
-    				<tr>
-    					<td>TechDeck</td>
-    					<td><a href="https://neo.batgen.com">https://neo.batgen.com</a></td>
-    				</tr>
-    				<tr>
-    					<td>TechDeck</td>
-    					<td><a href="https://neo.batgen.com">https://neo.batgen.com</a></td>
-    				</tr>
-    				<tr>
-    					<td>TechDeck</td>
-    					<td><a href="https://neo.batgen.com">https://neo.batgen.com</a></td>
-    				</tr>
-    				<tr>
-    					<td>TechDeck</td>
-    					<td><a href="https://neo.batgen.com">https://neo.batgen.com</a></td>
-    				</tr>
-    				<tr>
-    					<td>TechDeck</td>
-    					<td><a href="https://neo.batgen.com">https://neo.batgen.com</a></td>
-    				</tr>
-    				<tr>
-    					<td>TechDeck</td>
-    					<td><a href="https://neo.batgen.com">https://neo.batgen.com</a></td>
     				</tr>
     			</tbody>
     		</table>
